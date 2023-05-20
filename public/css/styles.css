@@ -1,0 +1,185 @@
+/*GERAL*/
+
+html {
+    height: 100%;
+    
+}
+
+body .loginBack{
+    min-height: 100%;
+    background-image: url("../img/background-login.jpg");
+}
+
+body {
+    min-height: 100%;
+    background-color: #c6cacf;
+}
+
+tr {
+    color: white;
+    text-align: center;
+}
+
+h2{
+    color: white;
+    text-align: center;
+    text-shadow: 1px 0 black, 0 1px black, 1px 0 black, 0 -1px black;
+}
+
+label{
+    text-shadow: -1px 0 black, 0 1px black, 1px 0 black, 0 -1px black;
+}
+
+.btn{
+    border: 1px solid black;
+    border-style: double;
+}
+
+/*LOGIN*/
+
+.brand_logo_container {
+    position: absolute;
+    height: 150px;
+    width: 150px;
+    top: -75px;
+    border-radius: 50%;
+    background: #60a3bc;
+    padding: 10px;
+    text-align: center;
+}
+
+.brand_logo {
+    height: 130px;
+    width: 130px;
+    border-radius: 50%;
+    border: 2px solid white;
+}
+
+.loginBox{
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    padding: 80px 40px;
+    width: 350px;
+    height: 450px;
+    box-sizing: border-box;
+    background:rgba(0, 0, 0, .5);
+    border-radius: 3%;
+}
+
+.loginBox input{
+    width:100%;
+    margin-bottom: 20px;
+}
+
+.loginBox input[type="text"],
+.loginBox input[type="password"]{
+    border:none;
+    border-bottom: 1px solid #fff;
+    background:transparent;
+    outline:none;
+    height:40px;
+    color:#fff;
+}
+
+::placeholder{
+    color: rgba(255, 255, 255, .5);
+}
+
+
+.loginText{
+    margin: 0;
+    padding:0 0 20px;
+    color: rgb(255, 255, 255);
+    text-align: center;
+}
+
+.labelText{
+    color: rgb(255, 255, 255);
+    font-weight: bold;
+}
+
+.menuBox{
+    background:rgba(0, 0, 0, .5);
+}
+
+.cardBody{
+    background:rgba(0, 0, 0, .5);
+}
+
+.btnBlue {
+    color: white;
+    background-color:#60a3bc;
+}
+
+.tableBackground {
+    background:rgba(0, 0, 0, .1);
+}
+
+.card-header {
+    background:rgba(0, 0, 0, .5);
+}
+
+.tabCad {
+    background:rgba(0, 0, 0, .5);
+}
+
+.card {
+    color: white;
+    border: 2px solid;
+    border-color: black;
+}
+
+.bg-gray{
+    background:rgba(0, 0, 0, .3);
+}
+
+.dist{
+    text-align:center;
+    width: 10%;
+}
+
+/*BARRA DE ROLAGEM*/
+
+::-webkit-scrollbar-track {
+    background-color: #F4F4F4;
+}
+::-webkit-scrollbar {
+    width: 6px;
+    background: #F4F4F4;
+}
+::-webkit-scrollbar-thumb {
+    background: black;
+}
+
+/*RODAPÉ*/
+
+
+.footerAll{
+    text-align:center;
+    color: rgb(255, 255, 255);
+    height: 5%;
+    width: 100%;
+    margin-top:30px;
+    background:rgba(0, 0, 0, .5);
+    position: fixed;
+    bottom:0;
+}
+
+.footerAll a:link, a:visited {
+    color: white;
+}
+  
+.footerAll a:link:active, a:visited:active {
+    color: red;
+}
+
+.lateral{
+    margin-right: 15px;
+    margin-left: 15px;
+}
+
+.pesquisa{
+    height: 100%;
+}
