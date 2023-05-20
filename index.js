@@ -5,7 +5,7 @@ const bodyParser = require("body-parser"); //Importando Body Parser
 const connection = require("./database/database");
 const adminAuth = require("./middleware/adminAuth");
 
-const usersController = require("./controllers/UsersController");
+const usersController = require("./controllers/UsuariosController");
 
 // View engine
 app.set('view engine','ejs');
