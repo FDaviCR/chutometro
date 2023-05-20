@@ -3,72 +3,65 @@ const router = express.Router();
 const User = require("../models/Usuarios");
 const bcrypt = require('bcryptjs');
 
-router.get("/admin/users", (req,res) => {
+router.get("/admin/usuarios", (req,res) => {
     User.findAll().then(users => {
-        res.render("admin/users/index", {users: users});
+        res.render("admin/usuarios/index", {users: users});
     });
 });
 
-router.get("/admin/users/create", (req,res) => {
-    res.render("admin/users/create");
+router.get("/admin/usuarios/create", (req,res) => {
+    res.render("admin/usuarios/create");
 });
 
-router.post("/users/create", (req,res) => {
-    var email = req.body.email;
-    var password = req.body.password;
+router.post("/usuarios/create", (req,res) => {
+    let usuario = req.body.usuario;
+    let password = req.body.password;
+    let email = '';
 
-    User.findOne({where:{login: email}}).then( user =>{
+    User.findOne({where:{usuario: usuario}}).then(user =>{
         if(user == undefined){
-            var salt = bcrypt.genSaltSync(10);
-            var hash = bcrypt.hashSync(password, salt);
-            var cad = null
-
-            if(req.session.usuario == undefined){
-                cad = "Usuário Primario";
-            }else{
-                cad = req.session.usuario;
-            }
+            let salt = bcrypt.genSaltSync(10);
+            let hash = bcrypt.hashSync(password, salt);
 
             User.create({
-                login: email,
+                email: email,
                 password: hash,
-                usuario: cad,
+                usuario: usuario,
                 ativo: true
             }).then(function(x){
-                console.log(x.id);
+                console.log(x);
                 if(req.session.usuario == undefined){
                     res.redirect("/");
                 }else{
-                    res.redirect("/admin/users/");
+                    res.redirect("/admin/usuarios/");
                 }
-                
             }).catch((err)=>{
                 console.log(err);
             });
         }else{
-            res.redirect("/admin/users/create");
+            res.redirect("/admin/usuarios/create");
         }
     })
 
 });
 
 router.get("/login", (req, res) => {
-    res.render("admin/users/login");
+    res.render("admin/usuarios/login");
 });
 
 router.post("/authenticate", (req,res) => {
-    var login = req.body.email;
-    var password = req.body.password;
-    req.session.usuario = login;
+    let usuario = req.body.usuario;
+    let password = req.body.password;
+    req.session.usuario = usuario;
 
-    User.findOne({where:{login:login}}).then(user=>{
+    User.findOne({where:{usuario:usuario}}).then(user=>{
         if(user != undefined){
-            var correct = bcrypt.compareSync(password, user.password);
+            let correct = bcrypt.compareSync(password, user.password);
 
             if(correct){
                 req.session.user = {
                     id: user.id,
-                    login: user.login
+                    login: user.usuario
                 }
                 res.redirect("/");
             }else{
@@ -81,8 +74,8 @@ router.post("/authenticate", (req,res) => {
     });
 });
 
-router.post("/users/delete", (req, res)=>{
-    var id = req.body.id;
+router.post("/usuarios/delete", (req, res)=>{
+    let id = req.body.id;
     if(id != undefined){
         if(!isNaN(id)){
             User.update({ativo: false,usuario: req.session.usuario},{
@@ -90,7 +83,7 @@ router.post("/users/delete", (req, res)=>{
                     id:id
                 }
             }).then(()=>{
-                res.redirect("/admin/users");
+                res.redirect("/admin/usuarios");
             })
         }else{
             res.redirect("/users");
@@ -101,8 +94,8 @@ router.post("/users/delete", (req, res)=>{
     }
 });
 
-router.post("/users/reactivate", (req, res)=>{
-    var id = req.body.id;
+router.post("/usuarios/reactivate", (req, res)=>{
+    let id = req.body.id;
     if(id != undefined){
         if(!isNaN(id)){
             User.update({ativo: true,usuario: req.session.usuario},{
@@ -110,7 +103,7 @@ router.post("/users/reactivate", (req, res)=>{
                     id:id
                 }
             }).then(()=>{
-                res.redirect("/admin/users");
+                res.redirect("/admin/usuarios");
             })
         }else{
             res.redirect("/users");

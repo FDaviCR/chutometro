@@ -9,7 +9,7 @@
     <hr>
     <h2>Usuários</h2>
     <hr>
-    <a class="btn btn-success" href="/admin/users/create">Criar novo usuário</a>
+    <a class="btn btn-success" href="/admin/usuarios/create">Criar novo usuário</a>
     <hr>
     <table class="table table-bordered bg-gray">
         <thead>
@@ -34,12 +34,12 @@
                     </th>
                     <th>
                         <% if( user.ativo === true){ %>
-                            <form method="POST" action="/users/delete" style="display: inline;" onsubmit="confirmarInativacao(event, this)">
+                            <form method="POST" action="/usuarios/delete" style="display: inline;" onsubmit="confirmarInativacao(event, this)">
                                 <input type="hidden" name="id" value="<%= user.id %>">
                                 <button class="btn btn-danger">Inativar</button>
                             </form>
                         <% } else{ %>
-                            <form method="POST" action="/users/reactivate" style="display: inline;" onsubmit="confirmarAtivacao(event, this)">
+                            <form method="POST" action="/usuarios/reactivate" style="display: inline;" onsubmit="confirmarAtivacao(event, this)">
                                 <input type="hidden" name="id" value="<%= user.id %>">
                                 <button class="btn btn-dark">Reativar</button>
                             </form>

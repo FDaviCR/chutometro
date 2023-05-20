@@ -43,7 +43,7 @@ label{
     width: 150px;
     top: -75px;
     border-radius: 50%;
-    background: #60a3bc;
+    background: #fc6603;
     padding: 10px;
     text-align: center;
 }
@@ -64,7 +64,7 @@ label{
     width: 350px;
     height: 450px;
     box-sizing: border-box;
-    background:rgba(235, 125, 52, .5);
+    background:rgba(252, 111, 18, .8);
     border-radius: 3%;
 }
 
@@ -101,16 +101,25 @@ label{
 }
 
 .menuBox{
-    background:rgba(0, 0, 0, .5);
+    background:rgba(252, 111, 18, 1);;
+}
+
+.bodyBox{
+    background-color:rgba(0, 0, 0, 1);
 }
 
 .cardBody{
     background:rgba(0, 0, 0, .5);
 }
 
-.btnBlue {
+.btnOrange {
     color: white;
-    background-color:#60a3bc;
+    background-color:#fc6603;
+}
+
+.btnBlack {
+    color: white;
+    background-color:#000;
 }
 
 .tableBackground {
