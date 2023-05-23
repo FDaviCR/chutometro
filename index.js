@@ -5,7 +5,10 @@ const bodyParser = require("body-parser"); //Importando Body Parser
 const connection = require("./database/database");
 const adminAuth = require("./middleware/adminAuth");
 
+const cors = require("cors");
+
 const usersController = require("./controllers/UsuariosController");
+const timesController = require("./controllers/TimesController");
 
 // View engine
 app.set('view engine','ejs');
@@ -26,6 +29,9 @@ app.use('/public/img/', express.static('./public/img'));
 app.use(bodyParser.urlencoded({extended: false}));
 app.use(bodyParser.json());
 
+//Protocolo HTTPS
+app.use(cors());
+
 //Database
 connection.authenticate()
     .then(()=>{
@@ -36,6 +42,7 @@ connection.authenticate()
     })
 
 app.use("/", usersController);
+app.use("/", timesController);
 
 // Router
 app.get("/", adminAuth, (req, res) => {
