@@ -7,8 +7,10 @@ const adminAuth = require("./middleware/adminAuth");
 
 const cors = require("cors");
 
-const usersController = require("./controllers/UsuariosController");
+const usuariosController = require("./controllers/UsuariosController");
 const timesController = require("./controllers/TimesController");
+const campeonatosController = require("./controllers/CampeonatosController");
+const tabelasController = require("./controllers/TabelasController");
 
 // View engine
 app.set('view engine','ejs');
@@ -41,8 +43,10 @@ connection.authenticate()
         console.log(msgErro);
     })
 
-app.use("/", usersController);
+app.use("/", usuariosController);
 app.use("/", timesController);
+app.use("/", campeonatosController);
+app.use("/", tabelasController);
 
 // Router
 app.get("/", adminAuth, (req, res) => {
