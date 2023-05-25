@@ -1,21 +1,21 @@
-const Sequelize = require("sequelize");
-const connection = require("../database/database");
+const Sequelize = require('sequelize');
+const connection = require('../database/database');
 
-const Campeonato = connection.define('campeonatos',{
-    Campeonato:{
+const Campeonato = connection.define('campeonatos', {
+    Campeonato: {
         type: Sequelize.STRING,
-        allowNull: false
+        allowNull: false,
     },
-    Ano:{
+    Ano: {
         type: Sequelize.INTEGER,
-        allowNull: false
+        allowNull: false,
     },
-    ativo:{
+    ativo: {
         type: Sequelize.BOOLEAN,
-        allowNull: false
-    }
-})
+        allowNull: false,
+    },
+});
 
-Campeonato.sync({force:false});
+Campeonato.sync({ force: false });
 
 module.exports = Campeonato;

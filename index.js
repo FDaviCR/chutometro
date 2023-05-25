@@ -1,62 +1,60 @@
-const express = require("express");
-const session = require("express-session");
+const express = require('express');
+const session = require('express-session');
+
 const app = express();
-const bodyParser = require("body-parser"); //Importando Body Parser
-const connection = require("./database/database");
-const adminAuth = require("./middleware/adminAuth");
+const bodyParser = require('body-parser'); // Importando Body Parser
+const cors = require('cors');
+const connection = require('./database/database');
+const adminAuth = require('./middleware/adminAuth');
 
-const cors = require("cors");
-
-const usuariosController = require("./controllers/UsuariosController");
-const timesController = require("./controllers/TimesController");
-const campeonatosController = require("./controllers/CampeonatosController");
-const tabelasController = require("./controllers/TabelasController");
+const usuariosController = require('./controllers/UsuariosController');
+const timesController = require('./controllers/TimesController');
+const campeonatosController = require('./controllers/CampeonatosController');
+const tabelasController = require('./controllers/TabelasController');
 
 // View engine
-app.set('view engine','ejs');
+app.set('view engine', 'ejs');
 
-//Sessions
+// Sessions
 app.use(session({
-    secret: "youshallnotpass", cookie: { maxAge: 14400000},
+    secret: 'youshallnotpass',
+cookie: { maxAge: 14400000 },
     saveUninitialized: true,
-    resave: true
-}))
+    resave: true,
+}));
 
-//Arquivos estaticos
+// Arquivos estaticos
 app.use(express.static('public'));
 app.use('/public', express.static('public'));
 app.use('/public/img/', express.static('./public/img'));
 
-//Body parser
-app.use(bodyParser.urlencoded({extended: false}));
+// Body parser
+app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 
-//Protocolo HTTPS
+// Protocolo HTTPS
 app.use(cors());
 
-//Database
+// Database
 connection.authenticate()
-    .then(()=>{
-        console.log("Conexão feita com o banco de dados!")
+    .then(() => {
+        console.log('Conexão feita com o banco de dados!');
     })
-    .catch((msgErro)=>{
+    .catch((msgErro) => {
         console.log(msgErro);
-    })
+    });
 
-app.use("/", usuariosController);
-app.use("/", timesController);
-app.use("/", campeonatosController);
-app.use("/", tabelasController);
+app.use('/', usuariosController);
+app.use('/', timesController);
+app.use('/', campeonatosController);
+app.use('/', tabelasController);
 
 // Router
-app.get("/", adminAuth, (req, res) => {
-    res.render("index.ejs");
-})
+app.get('/', adminAuth, (req, res) => {
+    res.render('index.ejs');
+});
 
 // End Router
 app.listen(3000, () => {
-    console.log("O servidor está rodando!")
-})
-
-
-
+    console.log('O servidor está rodando!');
+});

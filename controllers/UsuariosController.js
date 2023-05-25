@@ -1,122 +1,121 @@
-const express = require("express");
-const router = express.Router();
-const Usuarios = require("../models/Usuarios");
-const bcrypt = require('bcryptjs');
+const express = require('express');
 
-router.get("/admin/usuarios", (req,res) => {
-    Usuarios.findAll().then(users => {
-        res.render("admin/usuarios/index", {users: users});
+const router = express.Router();
+const bcrypt = require('bcryptjs');
+const Usuarios = require('../models/Usuarios');
+
+router.get('/admin/usuarios', (req, res) => {
+    Usuarios.findAll().then((users) => {
+        res.render('admin/usuarios/index', { users });
     });
 });
 
-router.get("/admin/usuarios/create", (req,res) => {
-    res.render("admin/usuarios/create");
+router.get('/admin/usuarios/create', (req, res) => {
+    res.render('admin/usuarios/create');
 });
 
-router.post("/usuarios/create", (req,res) => {
-    let usuario = req.body.usuario;
-    let password = req.body.password;
-    let email = '';
+router.post('/usuarios/create', (req, res) => {
+    const { usuario } = req.body;
+    const { password } = req.body;
+    const email = '';
 
-    Usuarios.findOne({where:{usuario: usuario}}).then(user =>{
-        if(user == undefined){
-            let salt = bcrypt.genSaltSync(10);
-            let hash = bcrypt.hashSync(password, salt);
+    Usuarios.findOne({ where: { usuario } }).then((user) => {
+        if (user == undefined) {
+            const salt = bcrypt.genSaltSync(10);
+            const hash = bcrypt.hashSync(password, salt);
 
             Usuarios.create({
-                email: email,
+                email,
                 password: hash,
-                usuario: usuario,
-                ativo: true
-            }).then(function(x){
+                usuario,
+                ativo: true,
+            }).then((x) => {
                 console.log(x);
-                if(req.session.usuario == undefined){
-                    res.redirect("/");
-                }else{
-                    res.redirect("/admin/usuarios/");
+                if (req.session.usuario == undefined) {
+                    res.redirect('/');
+                } else {
+                    res.redirect('/admin/usuarios/');
                 }
-            }).catch((err)=>{
+            }).catch((err) => {
                 console.log(err);
             });
-        }else{
-            res.redirect("/admin/usuarios/create");
-        }
-    })
-
-});
-
-router.get("/login", (req, res) => {
-    res.render("admin/usuarios/login");
-});
-
-router.post("/authenticate", (req,res) => {
-    let usuario = req.body.usuario;
-    let password = req.body.password;
-    req.session.usuario = usuario;
-
-    Usuarios.findOne({where:{usuario:usuario}}).then(user=>{
-        if(user != undefined){
-            let correct = bcrypt.compareSync(password, user.password);
-
-            if(correct){
-                req.session.user = {
-                    id: user.id,
-                    login: user.usuario
-                }
-                res.redirect("/");
-            }else{
-                res.redirect("/login");
-            }
-
-        }else{
-            res.redirect("/login");
+        } else {
+            res.redirect('/admin/usuarios/create');
         }
     });
 });
 
-router.post("/usuarios/delete", (req, res)=>{
-    let id = req.body.id;
-    if(id != undefined){
-        if(!isNaN(id)){
-            Usuarios.update({ativo: false,usuario: req.session.usuario},{
-                where:{
-                    id:id
-                }
-            }).then(()=>{
-                res.redirect("/admin/usuarios");
-            })
-        }else{
-            res.redirect("/users");
-            console.log("Não-número");
+router.get('/login', (req, res) => {
+    res.render('admin/usuarios/login');
+});
+
+router.post('/authenticate', (req, res) => {
+    const { usuario } = req.body;
+    const { password } = req.body;
+    req.session.usuario = usuario;
+
+    Usuarios.findOne({ where: { usuario } }).then((user) => {
+        if (user != undefined) {
+            const correct = bcrypt.compareSync(password, user.password);
+
+            if (correct) {
+                req.session.user = {
+                    id: user.id,
+                    login: user.usuario,
+                };
+                res.redirect('/');
+            } else {
+                res.redirect('/login');
+            }
+        } else {
+            res.redirect('/login');
         }
-    }else{
-        res.redirect("/users");
+    });
+});
+
+router.post('/usuarios/delete', (req, res) => {
+    const { id } = req.body;
+    if (id != undefined) {
+        if (!isNaN(id)) {
+            Usuarios.update({ ativo: false, usuario: req.session.usuario }, {
+                where: {
+                    id,
+                },
+            }).then(() => {
+                res.redirect('/admin/usuarios');
+            });
+        } else {
+            res.redirect('/users');
+            console.log('Não-número');
+        }
+    } else {
+        res.redirect('/users');
     }
 });
 
-router.post("/usuarios/reactivate", (req, res)=>{
-    let id = req.body.id;
-    if(id != undefined){
-        if(!isNaN(id)){
-            Usuarios.update({ativo: true,usuario: req.session.usuario},{
-                where:{
-                    id:id
-                }
-            }).then(()=>{
-                res.redirect("/admin/usuarios");
-            })
-        }else{
-            res.redirect("/users");
-            console.log("Não-número");
+router.post('/usuarios/reactivate', (req, res) => {
+    const { id } = req.body;
+    if (id != undefined) {
+        if (!isNaN(id)) {
+            Usuarios.update({ ativo: true, usuario: req.session.usuario }, {
+                where: {
+                    id,
+                },
+            }).then(() => {
+                res.redirect('/admin/usuarios');
+            });
+        } else {
+            res.redirect('/users');
+            console.log('Não-número');
         }
-    }else{
-        res.redirect("/users");
+    } else {
+        res.redirect('/users');
     }
 });
 
-router.get("/logout", (req,res) =>{
+router.get('/logout', (req, res) => {
     req.session.user = undefined;
-    res.redirect("/login");
+    res.redirect('/login');
 });
 
 module.exports = router;

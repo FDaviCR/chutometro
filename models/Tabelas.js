@@ -1,64 +1,64 @@
-const Sequelize = require("sequelize");
-const connection = require("../database/database");
+const Sequelize = require('sequelize');
+const connection = require('../database/database');
 
-const Campeonato = require("./Campeonatos");
-const Time = require("./Times");
+const Campeonato = require('./Campeonatos');
+const Time = require('./Times');
 
-const Tabela = connection.define('tabelas',{
-    colocacao:{
+const Tabela = connection.define('tabelas', {
+    colocacao: {
         type: Sequelize.INTEGER,
         allowNull: false,
-        default: 0
+        default: 0,
     },
-    pontos:{
+    pontos: {
         type: Sequelize.INTEGER,
         allowNull: false,
-        default: 0
+        default: 0,
     },
-    jogos:{
+    jogos: {
         type: Sequelize.INTEGER,
         allowNull: false,
-        default: 0
+        default: 0,
     },
-    vitorias:{
+    vitorias: {
         type: Sequelize.INTEGER,
         allowNull: false,
-        default: 0
+        default: 0,
     },
-    empates:{
+    empates: {
         type: Sequelize.INTEGER,
         allowNull: false,
-        default: 0
+        default: 0,
     },
-    derrotas:{
+    derrotas: {
         type: Sequelize.INTEGER,
         allowNull: false,
-        default: 0
+        default: 0,
     },
-    porcentagem:{
+    porcentagem: {
         type: Sequelize.INTEGER,
         allowNull: false,
-        default: 0
+        default: 0,
     },
-    golsPro:{
+    golsPro: {
         type: Sequelize.INTEGER,
         allowNull: false,
-        default: 0
+        default: 0,
     },
-    golsContra:{
+    golsContra: {
         type: Sequelize.INTEGER,
         allowNull: false,
-        default: 0
+        default: 0,
     },
-    ativo:{
+    ativo: {
         type: Sequelize.BOOLEAN,
-        allowNull: false
-    }
-})
+        allowNull: false,
+    },
+});
 
 Tabela.belongsTo(Campeonato);
 Tabela.belongsTo(Time);
 
-Tabela.sync({force:false});
+Tabela.sync({ force: false });
 
 module.exports = Tabela;
