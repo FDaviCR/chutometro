@@ -1,6 +1,8 @@
 const Sequelize = require('sequelize');
 const connection = require('../database/database');
 
+const Time = require('./Times');
+
 const Usuario = connection.define('usuarios', {
     email: {
         type: Sequelize.STRING,
@@ -20,6 +22,7 @@ const Usuario = connection.define('usuarios', {
     },
 });
 
+Usuario.belongsTo(Time);
 Usuario.sync({ force: false });
 
 module.exports = Usuario;

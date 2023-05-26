@@ -1,14 +1,55 @@
-<!DOCTYPE html>
-<html lang="pt-br">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Campeonatos</title>
+<%- include ('../../partials/header.ejs')%>
+<%- include ('../../partials/navbar.ejs')%>
 
-    <link rel="stylesheet" href="/css/bootstrap.min.css">
-    <link rel="stylesheet" type="text/css" href="/public/css/styles.css">
-    <link rel="shortcut icon" href="../../public/img/logo.png" type="image/x-icon" />
-    
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
-</head>
+<br>
+<div class="dist">
+    <a class="btn btn-info" href="/">Voltar</a>
+</div>
+<div class="container">
+    <hr>
+    <h2>Usuários</h2>
+    <hr>
+    <a class="btn btn-success" href="/admin/usuarios/create">Criar novo usuário</a>
+    <hr>
+    <table class="table table-bordered bg-gray">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Login</th>
+                <th>Status</th>
+                <th>Ações</th>
+            </tr>
+        </thead>
+        <tbody>
+            <% users.forEach(user=>{ %>
+                <tr>
+                    <th><%= user.id %></th>
+                    <th><%= user.login %></th>
+                    <th>
+                        <% if( user.ativo === true){ %>
+                            Ativo
+                        <% } else{ %>
+                            <p>Inativo</p>
+                        <% } %>
+                    </th>
+                    <th>
+                        <% if( user.ativo === true){ %>
+                            <form method="POST" action="/usuarios/delete" style="display: inline;" onsubmit="confirmarInativacao(event, this)">
+                                <input type="hidden" name="id" value="<%= user.id %>">
+                                <button class="btn btn-danger">Inativar</button>
+                            </form>
+                        <% } else{ %>
+                            <form method="POST" action="/usuarios/reactivate" style="display: inline;" onsubmit="confirmarAtivacao(event, this)">
+                                <input type="hidden" name="id" value="<%= user.id %>">
+                                <button class="btn btn-dark">Reativar</button>
+                            </form>
+                        <% } %>
+                    </th>
+                </tr>
+            <%}) %>
+        </tbody>
+    </table>
+</div>
+
+
+<%- include ('../../partials/footer.ejs')%>

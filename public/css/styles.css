@@ -2,7 +2,7 @@
 
 html {
     height: 100%;
-    
+
 }
 
 body .loginBack{
@@ -12,7 +12,7 @@ body .loginBack{
 
 body {
     min-height: 100%;
-    background-color: #c6cacf;
+    background-color: #000000;
 }
 
 tr {
@@ -159,7 +159,7 @@ label{
     background: #F4F4F4;
 }
 ::-webkit-scrollbar-thumb {
-    background: black;
+    background: orange;
 }
 
 /*RODAPÉ*/
@@ -179,7 +179,7 @@ label{
 .footerAll a:link, a:visited {
     color: white;
 }
-  
+
 .footerAll a:link:active, a:visited:active {
     color: red;
 }

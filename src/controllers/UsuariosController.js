@@ -5,8 +5,8 @@ const bcrypt = require('bcryptjs');
 const Usuarios = require('../models/Usuarios');
 
 router.get('/admin/usuarios', (req, res) => {
-    Usuarios.findAll().then((users) => {
-        res.render('admin/usuarios/index', { users });
+    Usuarios.findAll().then((usuarios) => {
+        res.render('admin/usuarios/index', { usuarios });
     });
 });
 
@@ -17,10 +17,11 @@ router.get('/admin/usuarios/create', (req, res) => {
 router.post('/usuarios/create', (req, res) => {
     const { usuario } = req.body;
     const { password } = req.body;
-    const email = '';
+    const email = req.body.email === undefined ? '' : req.body.email;
+    const timeId = req.body.timeId === undefined ? 1 : req.body.timeId;
 
     Usuarios.findOne({ where: { usuario } }).then((user) => {
-        if (user == undefined) {
+        if (user === undefined || user === null) {
             const salt = bcrypt.genSaltSync(10);
             const hash = bcrypt.hashSync(password, salt);
 
@@ -28,10 +29,10 @@ router.post('/usuarios/create', (req, res) => {
                 email,
                 password: hash,
                 usuario,
+                timeId,
                 ativo: true,
-            }).then((x) => {
-                console.log(x);
-                if (req.session.usuario == undefined) {
+            }).then(() => {
+                if (req.session.usuario === undefined) {
                     res.redirect('/');
                 } else {
                     res.redirect('/admin/usuarios/');
@@ -55,7 +56,7 @@ router.post('/authenticate', (req, res) => {
     req.session.usuario = usuario;
 
     Usuarios.findOne({ where: { usuario } }).then((user) => {
-        if (user != undefined) {
+        if (user !== undefined) {
             const correct = bcrypt.compareSync(password, user.password);
 
             if (correct) {
@@ -75,8 +76,8 @@ router.post('/authenticate', (req, res) => {
 
 router.post('/usuarios/delete', (req, res) => {
     const { id } = req.body;
-    if (id != undefined) {
-        if (!isNaN(id)) {
+    if (id !== undefined) {
+        if (!Number.isNaN(id)) {
             Usuarios.update({ ativo: false, usuario: req.session.usuario }, {
                 where: {
                     id,
@@ -85,18 +86,17 @@ router.post('/usuarios/delete', (req, res) => {
                 res.redirect('/admin/usuarios');
             });
         } else {
-            res.redirect('/users');
-            console.log('Não-número');
+            res.redirect('/usuarios');
         }
     } else {
-        res.redirect('/users');
+        res.redirect('/usuarios');
     }
 });
 
 router.post('/usuarios/reactivate', (req, res) => {
     const { id } = req.body;
-    if (id != undefined) {
-        if (!isNaN(id)) {
+    if (id !== undefined) {
+        if (!Number.isNaN(id)) {
             Usuarios.update({ ativo: true, usuario: req.session.usuario }, {
                 where: {
                     id,
@@ -105,11 +105,10 @@ router.post('/usuarios/reactivate', (req, res) => {
                 res.redirect('/admin/usuarios');
             });
         } else {
-            res.redirect('/users');
-            console.log('Não-número');
+            res.redirect('/usuarios');
         }
     } else {
-        res.redirect('/users');
+        res.redirect('/usuarios');
     }
 });
 

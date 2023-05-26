@@ -1,5 +1,5 @@
 <%- include ('../../partials/header.ejs')%>
-<%- include ('../../partials/navbar.ejs')%>
+<%- include ('../../partials/homeNavbar.ejs')%>
 
 <div class="container">
     <br>
@@ -11,8 +11,9 @@
         </div>
         <div class="card-body bg-gray">
             <form action="/usuarios/create" method="POST">
-                <input class="form-control" name="usuario" placeholder="Usuário"><br>
-                <input class="form-control" name="password" type="password" placeholder="***********"><br>
+                <input class="form-control" name="usuario" placeholder="Informe o usuário"><br>
+                <input class="form-control" name="password" type="password" placeholder="Informe a senha"><br>
+                <input class="form-control" name="email" type="email" placeholder="Informe o e-mail"><br>
                 <button type="submit" class="btn btn-success btn-block">Criar</button>
             </form>
         </div>
