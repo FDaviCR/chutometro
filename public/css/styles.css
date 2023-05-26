@@ -146,7 +146,9 @@ label{
 
 .dist{
     text-align:center;
-    width: 10%;
+    width: 20%;
+    display: flex;
+    justify-content: space-around;
 }
 
 /*BARRA DE ROLAGEM*/

@@ -4,11 +4,12 @@
 <br>
 <div class="dist">
     <a class="btn btn-info btnOrange" href="/">Voltar</a>
+    <a class="btn btn-success" href="/admin/usuarios/create">Criar novo usuário</a>
 </div>
 <div class="container">
 
     <h2>Usuários</h2>
-    <a class="btn btn-success" href="/admin/usuarios/create">Criar novo usuário</a>
+
     <hr>
     <table class="table table-bordered bg-gray">
         <thead>
@@ -26,7 +27,7 @@
                 <tr>
                     <th><%= user.id %></th>
                     <th><%= user.usuario %></th>
-                    <th><%= user.timeId %></th>
+                    <th><%= user.time.time %></th>
                     <th><%= user.email %></th>
                     <th>
                         <% if( user.ativo === true){ %>
@@ -76,5 +77,4 @@
             console.log("Foi um acidente");
         }
     }
-
 </script>

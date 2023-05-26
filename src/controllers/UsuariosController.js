@@ -3,9 +3,15 @@ const express = require('express');
 const router = express.Router();
 const bcrypt = require('bcryptjs');
 const Usuarios = require('../models/Usuarios');
+const Times = require('../models/Times');
+
+/** ROTAS DE RENDERIZAÇÃO DE PÁGINAS */
+router.get('/login', (req, res) => {
+    res.render('admin/usuarios/login');
+});
 
 router.get('/admin/usuarios', (req, res) => {
-    Usuarios.findAll().then((usuarios) => {
+    Usuarios.findAll({ include: [{ model: Times }] }).then((usuarios) => {
         res.render('admin/usuarios/index', { usuarios });
     });
 });
@@ -14,6 +20,12 @@ router.get('/admin/usuarios/create', (req, res) => {
     res.render('admin/usuarios/create');
 });
 
+router.get('/logout', (req, res) => {
+    req.session.user = undefined;
+    res.redirect('/login');
+});
+
+/** FUNÇÕES DE PROCESSAMENTO DE DADOS */
 router.post('/usuarios/create', (req, res) => {
     const { usuario } = req.body;
     const { password } = req.body;
@@ -44,10 +56,6 @@ router.post('/usuarios/create', (req, res) => {
             res.redirect('/admin/usuarios/create');
         }
     });
-});
-
-router.get('/login', (req, res) => {
-    res.render('admin/usuarios/login');
 });
 
 router.post('/authenticate', (req, res) => {
@@ -110,11 +118,6 @@ router.post('/usuarios/reactivate', (req, res) => {
     } else {
         res.redirect('/usuarios');
     }
-});
-
-router.get('/logout', (req, res) => {
-    req.session.user = undefined;
-    res.redirect('/login');
 });
 
 module.exports = router;
