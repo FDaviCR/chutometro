@@ -17,7 +17,9 @@ router.get('/admin/usuarios', (req, res) => {
 });
 
 router.get('/admin/usuarios/create', (req, res) => {
-    res.render('admin/usuarios/create');
+    Times.findAll().then((times) => {
+        res.render('admin/usuarios/create', { times });
+    });
 });
 
 router.get('/logout', (req, res) => {

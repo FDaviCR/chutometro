@@ -101,7 +101,7 @@ label{
 }
 
 .menuBox{
-    background:rgba(252, 111, 18, 1);;
+    background:rgba(252, 111, 18, 1);
 }
 
 .bodyBox{
@@ -141,7 +141,15 @@ label{
 }
 
 .bg-gray{
-    background:rgba(0, 0, 0, .3);
+    background:rgba(200, 200, 200, .3);
+}
+
+.bg-orange-total{
+    background:rgba(252, 111, 18);
+}
+
+.bg-orange{
+    background:rgba(252, 111, 18, .7);
 }
 
 .dist{
