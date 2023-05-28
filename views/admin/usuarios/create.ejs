@@ -14,9 +14,12 @@
                 <input class="form-control" name="usuario" placeholder="Informe o usuário"><br>
                 <input class="form-control" name="password" type="password" placeholder="Informe a senha"><br>
                 <input class="form-control" name="email" type="email" placeholder="Informe o e-mail"><br>
-                <select>
-
+                <select id="time" name="time" class="form-control">
+                    <% times.forEach((time)=>{ %>
+                        <option value="<%= time.id %>"><%= time.time %></option>
+                    <% }) %>
                 </select>
+                <br>
                 <button type="submit" class="btn btn-success btn-block">Criar</button>
             </form>
         </div>
