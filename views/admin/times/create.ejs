@@ -1,0 +1,22 @@
+<%- include ('../../partials/header.ejs')%>
+<%- include ('../../partials/homeNavbar.ejs')%>
+
+<div class="container">
+    <br>
+    <br>
+    <hr>
+    <div class="card mt-5">
+        <div class="card-header bg-dark">
+            <h2>Criação de Time</h2>
+        </div>
+        <div class="card-body bg-orange-total">
+            <form action="/times/create" method="POST">
+                <input class="form-control" name="usuario" placeholder="Informe o nome do time"><br>
+                <br>
+                <button type="submit" class="btn btn-success btn-block">Criar</button>
+            </form>
+        </div>
+    </div>
+</div>
+
+<%- include ('../../partials/footer.ejs')%>
