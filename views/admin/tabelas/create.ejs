@@ -1,0 +1,32 @@
+<%- include ('../../partials/header.ejs')%>
+<%- include ('../../partials/homeNavbar.ejs')%>
+
+<div class="container">
+    <br>
+    <br>
+    <hr>
+    <div class="card mt-5">
+        <div class="card-header bg-dark">
+            <h2>Adicionar Times ao Campeonato</h2>
+        </div>
+        <div class="card-body bg-orange-total">
+            <form action="/tabelas/include" method="POST">
+                <select id="campeonato" name="campeonato" class="form-control">
+                    <% times.forEach((campeonato)=>{ %>
+                        <option value="<%= campeonato.id %>"><%= campeonato.time %> - <%= campeonato.ano %></option>
+                    <% }) %>
+                </select>
+                <br>
+                <select id="time" name="time" class="form-control">
+                    <% times.forEach((time)=>{ %>
+                        <option value="<%= time.id %>"><%= time.time %></option>
+                    <% }) %>
+                </select>
+                <br>
+                <button type="submit" class="btn btn-success btn-block">Adicionar</button>
+            </form>
+        </div>
+    </div>
+</div>
+
+<%- include ('../../partials/footer.ejs')%>
