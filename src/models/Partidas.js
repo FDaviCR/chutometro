@@ -1,56 +1,47 @@
 const Sequelize = require('sequelize');
 const connection = require('../database/database');
 
-const Campeonato = require('./Campeonatos');
 const Time = require('./Times');
+const Campeonato = require('./Campeonatos');
 
-const Tabela = connection.define('tabelas', {
-    colocacao: {
+const Partida = connection.define('partidas', {
+    numeroPartida: {
         type: Sequelize.INTEGER,
         allowNull: false,
-        default: 0,
     },
-    pontos: {
+    local: {
+        type: Sequelize.STRING,
+        allowNull: false,
+    },
+    data: {
+        type: Sequelize.DATE,
+        allowNull: true,
+    },
+    golsMandante: {
         type: Sequelize.INTEGER,
         allowNull: false,
-        default: 0,
     },
-    jogos: {
+    golsVisitante: {
         type: Sequelize.INTEGER,
         allowNull: false,
-        default: 0,
     },
-    vitorias: {
+    cartoesAmarelosMandante: {
         type: Sequelize.INTEGER,
         allowNull: false,
-        default: 0,
     },
-    empates: {
+    cartoesAmarelosVisitante: {
         type: Sequelize.INTEGER,
         allowNull: false,
-        default: 0,
     },
-    derrotas: {
+    cartoesVermelhosMandante: {
         type: Sequelize.INTEGER,
         allowNull: false,
-        default: 0,
     },
-    porcentagem: {
+    cartoesVermelhosVisitante: {
         type: Sequelize.INTEGER,
         allowNull: false,
-        default: 0,
     },
-    golsPro: {
-        type: Sequelize.INTEGER,
-        allowNull: false,
-        default: 0,
-    },
-    golsContra: {
-        type: Sequelize.INTEGER,
-        allowNull: false,
-        default: 0,
-    },
-    ativo: {
+    partidaRealizada: {
         type: Sequelize.BOOLEAN,
         allowNull: false,
     },
@@ -60,9 +51,15 @@ const Tabela = connection.define('tabelas', {
     updatedAt: false,
 });
 
-Tabela.belongsTo(Campeonato);
-Tabela.belongsTo(Time);
+Partida.belongsTo(Campeonato);
+Partida.belongsTo(Time, {
+    foreignKey: 'mandanteId',
+});
 
-Tabela.sync({ force: false });
+Partida.belongsTo(Time, {
+    foreignKey: 'visitanteId',
+});
 
-module.exports = Tabela;
+Partida.sync({ force: false });
+
+module.exports = Partida;

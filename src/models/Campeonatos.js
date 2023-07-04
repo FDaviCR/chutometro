@@ -6,6 +6,10 @@ const Campeonato = connection.define('campeonatos', {
         type: Sequelize.STRING,
         allowNull: false,
     },
+    Divisao: {
+        type: Sequelize.STRING,
+        allowNull: true,
+    },
     Ano: {
         type: Sequelize.INTEGER,
         allowNull: false,
@@ -14,6 +18,10 @@ const Campeonato = connection.define('campeonatos', {
         type: Sequelize.BOOLEAN,
         allowNull: false,
     },
+}, {
+    timestamps: false,
+    createdAt: false,
+    updatedAt: false,
 });
 
 Campeonato.sync({ force: false });

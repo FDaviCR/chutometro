@@ -6,10 +6,18 @@ const Time = connection.define('times', {
         type: Sequelize.STRING,
         allowNull: false,
     },
+    timeApelido: {
+        type: Sequelize.STRING,
+        allowNull: false,
+    },
     ativo: {
         type: Sequelize.BOOLEAN,
         allowNull: false,
     },
+}, {
+    timestamps: false,
+    createdAt: false,
+    updatedAt: false,
 });
 
 Time.sync({ force: false });

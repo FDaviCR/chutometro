@@ -11,6 +11,7 @@ const usuariosController = require('./controllers/UsuariosController');
 const timesController = require('./controllers/TimesController');
 const campeonatosController = require('./controllers/CampeonatosController');
 const tabelasController = require('./controllers/TabelasController');
+const partidasController = require('./controllers/PartidasController');
 
 // View engine
 app.set('view engine', 'ejs');
@@ -48,6 +49,7 @@ app.use('/', usuariosController);
 app.use('/', timesController);
 app.use('/', campeonatosController);
 app.use('/', tabelasController);
+app.use('/', partidasController);
 
 // Router
 app.get('/', adminAuth, (req, res) => {

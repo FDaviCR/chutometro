@@ -20,6 +20,10 @@ const Usuario = connection.define('usuarios', {
         type: Sequelize.BOOLEAN,
         allowNull: false,
     },
+}, {
+    timestamps: false,
+    createdAt: false,
+    updatedAt: false,
 });
 
 Usuario.belongsTo(Time);
