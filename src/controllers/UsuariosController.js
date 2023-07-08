@@ -32,7 +32,7 @@ router.post('/usuarios/create', (req, res) => {
     const { usuario } = req.body;
     const { password } = req.body;
     const email = req.body.email === undefined ? '' : req.body.email;
-    const timeId = req.body.timeId === undefined ? 1 : req.body.timeId;
+    const timeId = req.body.time === undefined ? 1 : req.body.time;
 
     Usuarios.findOne({ where: { usuario } }).then((user) => {
         if (user === undefined || user === null) {
