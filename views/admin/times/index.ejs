@@ -6,7 +6,11 @@
     <a class="btn btn-info btnOrange" href="/">Voltar</a>
     <a class="btn btn-success" href="/admin/times/create">Criar novo time</a>
 </div>
-<%- include ('../../partials/notification.ejs')%>
+<% if(false){ %>
+    <%- include ('../../partials/notification.ejs')%>
+<% } else{ %>
+    <p>False</p>
+<% } %>
 <div class="container">
     <h2>Times</h2>
     <hr>

@@ -1,5 +1,5 @@
 <%- include ('../../partials/header.ejs')%>
-<%- include ('../../partials/navbar.ejs')%>
+<%- include ('../../partials/homeNavbar.ejs')%>
 
 <br>
 <div class="dist">
@@ -7,46 +7,22 @@
 </div>
 <div class="container">
     <hr>
-    <h2>Usuários</h2>
+    <h2>Campeonatos</h2>
     <hr>
-    <a class="btn btn-success" href="/admin/usuarios/create">Criar novo usuário</a>
+    <a class="btn btn-success" href="/admin/usuarios/create">Criar novo campeonato</a>
     <hr>
     <table class="table table-bordered bg-gray">
         <thead>
             <tr>
                 <th>Id</th>
-                <th>Login</th>
-                <th>Status</th>
+                <th>Campeonato</th>
+                <th></th>
+                <th>Edição</th>
                 <th>Ações</th>
             </tr>
         </thead>
         <tbody>
-            <% users.forEach(user=>{ %>
-                <tr>
-                    <th><%= user.id %></th>
-                    <th><%= user.login %></th>
-                    <th>
-                        <% if( user.ativo === true){ %>
-                            Ativo
-                        <% } else{ %>
-                            <p>Inativo</p>
-                        <% } %>
-                    </th>
-                    <th>
-                        <% if( user.ativo === true){ %>
-                            <form method="POST" action="/usuarios/delete" style="display: inline;" onsubmit="confirmarInativacao(event, this)">
-                                <input type="hidden" name="id" value="<%= user.id %>">
-                                <button class="btn btn-danger">Inativar</button>
-                            </form>
-                        <% } else{ %>
-                            <form method="POST" action="/usuarios/reactivate" style="display: inline;" onsubmit="confirmarAtivacao(event, this)">
-                                <input type="hidden" name="id" value="<%= user.id %>">
-                                <button class="btn btn-dark">Reativar</button>
-                            </form>
-                        <% } %>
-                    </th>
-                </tr>
-            <%}) %>
+
         </tbody>
     </table>
 </div>
