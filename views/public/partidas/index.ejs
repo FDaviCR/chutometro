@@ -1,0 +1,40 @@
+<%- include ('../../partials/header.ejs')%>
+<%- include ('../../partials/homeNavbar.ejs')%>
+
+<br>
+<div class="dist">
+    <a class="btn btn-info" href="/">Voltar</a>
+</div>
+<div class="container">
+    <hr>
+    <h2>Partidas</h2>
+    <hr>
+    <table class="table table-bordered bg-gray">
+        <thead>
+            <tr>
+                <th>Partida</th>
+                <th>Mandante</th>
+                <th>Gols Mandante</th>
+                <th>X</th>
+                <th>Gols Visitante</th>
+                <th>Visitante</th>
+            </tr>
+        </thead>
+        <tbody>
+            <% partidas.forEach(partida=>{ %>
+                <tr>
+                    <th><%= partida.numeroPartida %></th>
+                    <th><%= partida.Mandante %></th>
+                    <th><%= partida.golsMandante %></th>
+                    <th>x</th>
+                    <th><%= partida.golsVisitante %></th>
+                    <th><%= partida.Visitante %></th>
+                </tr>
+            <%}) %>
+
+        </tbody>
+    </table>
+</div>
+
+
+<%- include ('../../partials/footer.ejs')%>
