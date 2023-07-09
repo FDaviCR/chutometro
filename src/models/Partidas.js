@@ -45,6 +45,10 @@ const Partida = connection.define('partidas', {
         type: Sequelize.BOOLEAN,
         allowNull: false,
     },
+    rodada: {
+        type: Sequelize.INTEGER,
+        allowNull: false,
+    },
 }, {
     timestamps: false,
     createdAt: false,
