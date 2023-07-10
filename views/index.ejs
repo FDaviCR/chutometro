@@ -1,9 +1,38 @@
 <%- include ("partials/header.ejs") %>
-<%- include ("partials/homenavbar.ejs") %>
+<!-- <%- include ("partials/homenavbar.ejs") %> -->
 <body class="bodyBox">
-    <div class="card-item">
+    <button class="card-item" onclick="redirecionarCampeonatos()">
+        Campeonatos
+    </button>
+    <button class="card-item" onclick="redirecionarTimes()">
+        Times
+    </button>
+    <button class="card-item" onclick="redirecionarPartidas()">
+        Partidas
+    </button>
+    <button class="card-item" onclick="redirecionarTabelas()">
+        Tabelas
+    </button>
+    <button class="card-item" href="/partidas">
         Exemplo
-    </div>
+    </button>
 </body>
+<script>
+    function redirecionarCampeonatos(){
+        window.location.href = `/campeonatos`;
+    }
+
+    function redirecionarTimes(){
+        window.location.href = `/times`;
+    }
+
+    function redirecionarTabelas(){
+        window.location.href = `/tabelas`;
+    }
+
+    function redirecionarPartidas(){
+        window.location.href = `/partidas`;
+    }
+</script>
 
 <%- include ("partials/footer.ejs") %>

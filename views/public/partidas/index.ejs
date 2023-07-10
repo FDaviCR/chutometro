@@ -17,7 +17,7 @@
             <option value="<%= rodada.rodada %>"><%= rodada.rodada %> ª Rodada</option>
         <% }) %>
     </select>
-    <a class="btn btn-info" onclick="test()">Consultar</a>
+    <a class="btn btn-info" onclick="campeonatoRodada()">Consultar</a>
 </div>
 </div>
 <div class="container">
@@ -52,7 +52,7 @@
     </table>
 </div>
 <script>
-    function test(){
+    function campeonatoRodada(){
         const campeonato = document.getElementById('campeonato').value;
         const rodada = document.getElementById('rodada').value;
 
