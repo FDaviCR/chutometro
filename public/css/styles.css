@@ -144,6 +144,10 @@ label{
     background:rgba(200, 200, 200, .3);
 }
 
+.no-border{
+    border: 0px;
+}
+
 .bg-orange-total{
     background:rgba(252, 111, 18);
 }
@@ -157,6 +161,25 @@ label{
     width: 20%;
     display: flex;
     justify-content: space-around;
+}
+
+.dist-menu{
+    text-align:center;
+    width: 40%;
+    display: flex;
+    margin: auto;
+}
+
+.dist-geral{
+    text-align:center;
+    width: 90%;
+    display: flex;
+    margin: auto;
+}
+
+.form-element{
+    margin-right: 10px;
+    margin-left: 10px;
 }
 
 /*BARRA DE ROLAGEM*/
@@ -216,6 +239,10 @@ label{
     overflow: auto; /* Enable scroll if needed */
     background-color: rgb(0,0,0); /* Fallback color */
     background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+}
+
+.card-item{
+    background:rgba(252, 111, 18, .8);
 }
 
   /* Modal Content/Box */
