@@ -13,6 +13,10 @@ const Palpite = connection.define('Palpites', {
         type: Sequelize.BOOLEAN,
         allowNull: false,
     },
+    rodada: {
+        type: Sequelize.BOOLEAN,
+        allowNull: false,
+    },
     valido: {
         type: Sequelize.BOOLEAN,
         allowNull: false,
