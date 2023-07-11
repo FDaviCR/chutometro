@@ -5,7 +5,9 @@ const router = express.Router();
 const Campeonatos = require('../models/Campeonatos');
 
 router.get('/campeonatos', (req, res) => {
-    res.render('admin/campeonatos/index');
+    Campeonatos.findAll().then((campeonatos) => {
+        res.render('admin/campeonatos/index', { campeonatos });
+    });
 });
 
 module.exports = router;

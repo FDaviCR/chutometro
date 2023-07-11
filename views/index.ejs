@@ -13,8 +13,8 @@
     <button class="card-item" onclick="redirecionarTabelas()">
         Tabelas
     </button>
-    <button class="card-item" href="/partidas">
-        Exemplo
+    <button class="card-item" onclick="redirecionarCampeonatosDePalpites()">
+        Campeonato de Palpites
     </button>
 </body>
 <script>
@@ -32,6 +32,10 @@
 
     function redirecionarPartidas(){
         window.location.href = `/partidas`;
+    }
+
+    function redirecionarCampeonatosDePalpites(){
+        window.location.href = `/campeonato-palpites`;
     }
 </script>
 

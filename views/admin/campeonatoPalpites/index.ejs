@@ -7,17 +7,15 @@
 </div>
 <div class="container">
     <hr>
-    <h2>Campeonatos</h2>
+    <h2>Campeonatos de Palpites</h2>
     <hr>
-    <a class="btn btn-success" href="/admin/usuarios/create">Criar novo campeonato</a>
+    <a class="btn btn-success" href="/admin/campeonato-palpites/create">Criar novo campeonato de palpites</a>
     <hr>
     <table class="table table-bordered bg-gray">
         <thead>
             <tr>
                 <th>Id</th>
                 <th>Campeonato</th>
-                <th>Divisão</th>
-                <th>Edição</th>
                 <th>Ações</th>
             </tr>
         </thead>
@@ -25,9 +23,7 @@
             <% campeonatos.forEach(campeonato=>{ %>
                 <tr>
                     <th><%= campeonato.id %></th>
-                    <th><%= campeonato.Campeonato %></th>
-                    <th><%= campeonato.Divisao %></th>
-                    <th><%= campeonato.Ano %></th>
+                    <th><%= campeonato.apelido %></th>
                 </tr>
             <%}) %>
         </tbody>
