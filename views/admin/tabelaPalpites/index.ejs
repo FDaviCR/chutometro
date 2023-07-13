@@ -1,0 +1,34 @@
+<%- include ('../../partials/header.ejs')%>
+<%- include ('../../partials/homeNavbar.ejs')%>
+
+<br>
+<div class="dist">
+    <a class="btn btn-info btnOrange" href="/">Voltar</a>
+</div>
+<div class="container">
+
+    <h2>Participantes do Campeonato de Palpites</h2>
+
+    <hr>
+    <table class="table table-bordered bg-gray">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Usuário</th>
+                <th>Pontuação</th>
+            </tr>
+        </thead>
+        <tbody>
+            <% campeonatos.forEach(campeonato=>{ %>
+                <tr>
+                    <th><%= campeonato.id %></th>
+                    <th><%= campeonato.usuario %></th>
+                    <th><%= campeonato.pontuacao %></th>
+                </tr>
+            <%}) %>
+        </tbody>
+    </table>
+</div>
+
+<%- include ('../../partials/footer.ejs')%>
+

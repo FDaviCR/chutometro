@@ -24,11 +24,30 @@
                 <tr>
                     <th><%= campeonato.id %></th>
                     <th><%= campeonato.apelido %></th>
+                    <th>
+                        <% if( campeonato.ativo === true){ %>
+                            <form method="POST" action="/tabela-palpites" style="display: inline;" onsubmit="confirmarInativacao(event, this)">
+                                <input type="hidden" id="idCampeonato" name="idCampeonato" value="<%= campeonato.id %>">
+                                <button class="btn btn-success">Adicionar Usuários</button>
+                            </form>
+                        <% } %>
+                    </th>
                 </tr>
             <%}) %>
         </tbody>
     </table>
 </div>
 
-
 <%- include ('../../partials/footer.ejs')%>
+
+<script>
+    function confirmarInativacao(event, form){
+        event.preventDefault();
+        var decision = confirm("Deseja adicionar novos participantes?");
+        if(decision){
+            form.submit();
+        }else{
+            console.log("Foi um acidente");
+        }
+    }
+</script>
