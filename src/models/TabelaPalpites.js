@@ -18,6 +18,7 @@ const TabelaPalpites = connection.define('TabelaPalpites', {
     ativo: {
         type: Sequelize.BOOLEAN,
         allowNull: false,
+        default: true,
     },
 }, {
     timestamps: false,

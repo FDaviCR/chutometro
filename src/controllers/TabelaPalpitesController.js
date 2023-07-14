@@ -5,6 +5,7 @@ const connection = require('../database/database');
 const router = express.Router();
 // const bcrypt = require('bcryptjs');
 const CampeonatoPaltipes = require('../models/CampeonatoPalpites');
+const Usuarios = require('../models/Usuarios');
 // const TabelaPalpites = require('../models/TabelaPalpites');
 
 /** ROTAS DE RENDERIZAÇÃO DE PÁGINAS */
@@ -22,7 +23,7 @@ router.post('/tabela-palpites', async (req, res) => {
             { type: QueryTypes.SELECT },
 );
 
-            res.render('admin/tabelaPalpites/index', { campeonatos });
+            res.render('admin/tabelaPalpites/index', { campeonatos, idCampeonato });
         } else {
             res.render('/usuarios');
         }
@@ -31,12 +32,20 @@ router.post('/tabela-palpites', async (req, res) => {
     }
 });
 
+router.get('/tabela-palpites/add-user', (req, res) => {
+    const { idCampeonato } = req.body;
+
+    Usuarios.findAll().then((usuarios) => {
+        res.render('admin/tabelaPalpites/create', { usuarios, idCampeonato });
+    });
+});
+/*
 router.get('/admin/tabela-palpites/create', (req, res) => {
     CampeonatoPaltipes.findAll().then((campeonatos) => {
         res.render('admin/tabelaPalpites/create', { campeonatos });
     });
 });
-
+*/
 /** FUNÇÕES DE PROCESSAMENTO DE DADOS */
 router.post('/tabela-palpites/create', (req, res) => {
     const { campeonatoPalpite } = req.body;

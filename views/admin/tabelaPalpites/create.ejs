@@ -1,0 +1,26 @@
+<%- include ('../../partials/header.ejs')%>
+<%- include ('../../partials/homeNavbar.ejs')%>
+
+<div class="container">
+    <br>
+    <br>
+    <hr>
+    <div class="card mt-5">
+        <div class="card-header bg-dark">
+            <h2>Adicionar Participante ao Campeonato de Palpites</h2>
+        </div>
+        <div class="card-body bg-orange-total">
+            <form action="/campeonato-palpites/create" method="POST">
+                <select id="campeonato" name="campeonato" class="form-control">
+                    <% usuarios.forEach((usuario)=>{ %>
+                        <option value="<%= usuario.id %>"><%= usuario.usuario %> </option>
+                    <% }) %>
+                </select>
+                <br>
+                <button type="submit" class="btn btn-success btn-block">Criar</button>
+            </form>
+        </div>
+    </div>
+</div>
+
+<%- include ('../../partials/footer.ejs')%>
