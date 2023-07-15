@@ -10,12 +10,13 @@
             <h2>Adicionar Participante ao Campeonato de Palpites</h2>
         </div>
         <div class="card-body bg-orange-total">
-            <form action="/campeonato-palpites/create" method="POST">
-                <select id="campeonato" name="campeonato" class="form-control">
+            <form action="/tabela-palpites/create" method="POST">
+                <select id="usuarioId" name="usuarioId" class="form-control">
                     <% usuarios.forEach((usuario)=>{ %>
                         <option value="<%= usuario.id %>"><%= usuario.usuario %> </option>
                     <% }) %>
                 </select>
+                <input type="hidden" id="campeonatoId" name="campeonatoId" value="<%= idCampeonato %>">
                 <br>
                 <button type="submit" class="btn btn-success btn-block">Criar</button>
             </form>

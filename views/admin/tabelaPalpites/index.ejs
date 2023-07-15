@@ -7,9 +7,12 @@
 </div>
 <div class="container">
 
-    <h2>Participantes do Campeonato de Palpites <%= idCampeonato %></h2>
+    <h2>Participantes do Campeonato de Palpites</h2>
     <hr>
-    <a class="btn btn-success" href="/tabela-palpites/add-user">Adicionar participante</a>
+    <form action="/tabela-palpites/add-user" method="POST">
+        <input type="hidden" id="idCampeonato" name="idCampeonato" value="<%= idCampeonato %>">
+        <button type="submit" class="btn btn-success btn-block">Adicionar participante</button>
+    </form>
     <hr>
     <table class="table table-bordered bg-gray">
         <thead>

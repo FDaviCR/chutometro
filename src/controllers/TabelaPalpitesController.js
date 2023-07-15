@@ -4,9 +4,8 @@ const connection = require('../database/database');
 
 const router = express.Router();
 // const bcrypt = require('bcryptjs');
-const CampeonatoPaltipes = require('../models/CampeonatoPalpites');
 const Usuarios = require('../models/Usuarios');
-// const TabelaPalpites = require('../models/TabelaPalpites');
+const TabelaPalpites = require('../models/TabelaPalpites');
 
 /** ROTAS DE RENDERIZAÇÃO DE PÁGINAS */
 router.post('/tabela-palpites', async (req, res) => {
@@ -16,10 +15,11 @@ router.post('/tabela-palpites', async (req, res) => {
         if (!Number.isNaN(idCampeonato)) {
             const campeonatos = await connection.query(
 `
-                SELECT tp.id, u.usuario, cp.apelido FROM tabelapalpites as tp
+                SELECT tp.id, u.usuario, tp.pontuacao FROM tabelapalpites as tp
                 INNER JOIN usuarios AS u ON u.id = tp.usuarioId
                 INNER JOIN campeonatopalpites AS cp ON cp.id = tp.CampeonatoPalpiteId
-                WHERE tp.CampeonatoPalpiteId = ${idCampeonato}`,
+                WHERE tp.CampeonatoPalpiteId = ${idCampeonato}
+                ORDER BY tp.pontuacao`,
             { type: QueryTypes.SELECT },
 );
 
@@ -32,42 +32,51 @@ router.post('/tabela-palpites', async (req, res) => {
     }
 });
 
-router.get('/tabela-palpites/add-user', (req, res) => {
+router.post('/tabela-palpites/add-user', (req, res) => {
     const { idCampeonato } = req.body;
 
     Usuarios.findAll().then((usuarios) => {
         res.render('admin/tabelaPalpites/create', { usuarios, idCampeonato });
     });
 });
-/*
-router.get('/admin/tabela-palpites/create', (req, res) => {
-    CampeonatoPaltipes.findAll().then((campeonatos) => {
-        res.render('admin/tabelaPalpites/create', { campeonatos });
-    });
-});
-*/
-/** FUNÇÕES DE PROCESSAMENTO DE DADOS */
-router.post('/tabela-palpites/create', (req, res) => {
-    const { campeonatoPalpite } = req.body;
-    const campeonatoId = req.body.campeonato;
-    const usuarioId = req.body.usuario;
 
-    CampeonatoPaltipes.findOne({ where: { apelido: campeonatoPalpite } }).then((campPalpite) => {
-        if (campPalpite === undefined || campPalpite === null) {
-            CampeonatoPaltipes.create({
-                apelido: campeonatoPalpite,
-                usuarioId,
-                campeonatoId,
-                ativo: true,
-            }).then(() => {
-                res.redirect('/campeonato-palpites');
-            }).catch((err) => {
-                console.log(err);
-            });
-        } else {
-            res.redirect('/campeonato-palpites');
-        }
-    });
+/** FUNÇÕES DE PROCESSAMENTO DE DADOS */
+router.post('/tabela-palpites/create', async (req, res) => {
+    const CampeonatoPalpiteId = req.body.campeonatoId;
+    const { usuarioId } = req.body;
+
+    const tabPalpite = await connection.query(
+        `
+        SELECT * FROM tabelapalpites as tp
+        WHERE tp.CampeonatoPalpiteId = ${CampeonatoPalpiteId} and tp.usuarioId = ${usuarioId}`,
+        { type: QueryTypes.SELECT },
+    );
+
+    if (tabPalpite === undefined || tabPalpite === null || tabPalpite.length === 0) {
+        TabelaPalpites.create({
+            usuarioId,
+            CampeonatoPalpiteId,
+            rodada: 0,
+            pontuacao: 0,
+            ativo: true,
+        }).then(async () => {
+            const campeonatos = await connection.query(
+            `
+                SELECT tp.id, u.usuario, tp.pontuacao FROM tabelapalpites as tp
+                INNER JOIN usuarios AS u ON u.id = tp.usuarioId
+                INNER JOIN campeonatopalpites AS cp ON cp.id = tp.CampeonatoPalpiteId
+                WHERE tp.CampeonatoPalpiteId = ${CampeonatoPalpiteId}
+                ORDER BY tp.pontuacao`,
+                { type: QueryTypes.SELECT },
+            );
+
+            res.render('admin/tabelaPalpites/index', { campeonatos, idCampeonato: CampeonatoPalpiteId });
+        }).catch((err) => {
+            console.log(err);
+        });
+    } else {
+        res.redirect('/campeonato-palpites');
+    }
 });
 
 module.exports = router;
