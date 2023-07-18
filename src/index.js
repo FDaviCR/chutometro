@@ -14,6 +14,7 @@ const tabelasController = require('./controllers/TabelasController');
 const partidasController = require('./controllers/PartidasController');
 const campeonatoPalpitesController = require('./controllers/CampeonatoPalpitesController');
 const tabelaPalpitesController = require('./controllers/TabelaPalpitesController');
+const palpitesController = require('./controllers/PalpitesController');
 
 // View engine
 app.set('view engine', 'ejs');
@@ -54,6 +55,7 @@ app.use('/', tabelasController);
 app.use('/', partidasController);
 app.use('/', campeonatoPalpitesController);
 app.use('/', tabelaPalpitesController);
+app.use('/', palpitesController);
 
 // Router
 app.get('/', adminAuth, (req, res) => {
