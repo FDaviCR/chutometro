@@ -13,25 +13,31 @@ router.post('/tabela-palpites', async (req, res) => {
 
     if (idCampeonato !== undefined) {
         if (!Number.isNaN(idCampeonato)) {
+            const campeonato = await connection.query(`SELECT campeonatoId FROM campeonatopalpites WHERE id = ${idCampeonato}`);
+
             const campeonatos = await connection.query(
-`
+            `
                 SELECT tp.id, u.usuario, tp.pontuacao FROM tabelapalpites as tp
                 INNER JOIN usuarios AS u ON u.id = tp.usuarioId
                 INNER JOIN campeonatopalpites AS cp ON cp.id = tp.CampeonatoPalpiteId
                 WHERE tp.CampeonatoPalpiteId = ${idCampeonato}
                 ORDER BY tp.pontuacao`,
-            { type: QueryTypes.SELECT },
-);
+                { type: QueryTypes.SELECT },
+            );
             const jogadores = await connection.query(
-    `
+            `
                 SELECT u.id, u.usuario FROM tabelapalpites as tp
                 INNER JOIN usuarios AS u ON u.id = tp.usuarioId
                 INNER JOIN campeonatopalpites AS cp ON cp.id = tp.CampeonatoPalpiteId
                 WHERE tp.CampeonatoPalpiteId = ${idCampeonato}`,
-            { type: QueryTypes.SELECT },
-    );
+                { type: QueryTypes.SELECT },
+            );
 
-            res.render('admin/tabelaPalpites/index', { campeonatos, idCampeonato, jogadores });
+            const rodadas = await connection.query(`SELECT rodada from partidas WHERE campeonatoId = ${campeonato[0][0].campeonatoId} GROUP By rodada`, { type: QueryTypes.SELECT });
+
+            res.render('admin/tabelaPalpites/index', {
+                campeonatos, idCampeonato, jogadores, rodadas,
+            });
         } else {
             res.render('/usuarios');
         }
