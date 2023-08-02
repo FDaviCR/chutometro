@@ -22,8 +22,16 @@ router.post('/tabela-palpites', async (req, res) => {
                 ORDER BY tp.pontuacao`,
             { type: QueryTypes.SELECT },
 );
+            const jogadores = await connection.query(
+    `
+                SELECT u.id, u.usuario FROM tabelapalpites as tp
+                INNER JOIN usuarios AS u ON u.id = tp.usuarioId
+                INNER JOIN campeonatopalpites AS cp ON cp.id = tp.CampeonatoPalpiteId
+                WHERE tp.CampeonatoPalpiteId = ${idCampeonato}`,
+            { type: QueryTypes.SELECT },
+    );
 
-            res.render('admin/tabelaPalpites/index', { campeonatos, idCampeonato });
+            res.render('admin/tabelaPalpites/index', { campeonatos, idCampeonato, jogadores });
         } else {
             res.render('/usuarios');
         }
