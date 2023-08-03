@@ -146,6 +146,8 @@ label{
 
 .no-border{
     border: 0px;
+    margin-left: 5%;
+    width: 90%;
 }
 
 .bg-orange-total{
@@ -170,9 +172,30 @@ label{
     margin: auto;
 }
 
+.dist-menu-left{
+    text-align:left;
+    width: 10%;
+    display: flex;
+    margin: auto;
+}
+
+.dist-menu-right{
+    text-align:center;
+    width: 10%;
+    display: flex;
+    margin: auto;
+}
+
 .dist-geral{
     text-align:center;
     width: 90%;
+    display: flex;
+    margin: auto;
+}
+
+.dist-actions{
+    text-align:center;
+    width: 100%;
     display: flex;
     margin: auto;
 }

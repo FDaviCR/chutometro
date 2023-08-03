@@ -1,0 +1,75 @@
+<%- include ('../../partials/header.ejs')%>
+<%- include ('../../partials/homeNavbar.ejs')%>
+
+<br>
+<div class="dist-geral">
+    <div class="dist-menu-left">
+        <a class="btn btn-info" href="/">Voltar</a>
+    </div>
+    <div class="dist-menu-right">
+        <input type="hidden" id="campeonatoPalpite" name="campeonatoPalpite" value="<%= campeonatoPalpite %>">
+        <input type="hidden" id="jogador" name="jogador" value="<%= jogador %>">
+        <a class="btn btn-info" onclick="consultarPalpites()">Registrar Palpites</a>
+    </div>
+</div>
+<div>
+    <hr>
+    <h2>Palpites</h2>
+    <hr>
+    <table class="table no-border">
+        <thead>
+            <tr>
+                <th>Partida</th>
+                <th>Mandante</th>
+                <th>Gols Mandante</th>
+                <th>X</th>
+                <th>Gols Visitante</th>
+                <th>Visitante</th>
+                <th>Realizada?</th>
+                <th>Palpite</th>
+            </tr>
+        </thead>
+        <tbody>
+            <% partidas.forEach(partida=>{ %>
+                <tr>
+                    <th><%= partida.numeroPartida %></th>
+                    <th><%= partida.Mandante %></th>
+                    <th><%= partida.golsMandante %></th>
+                    <th>x</th>
+                    <th><%= partida.golsVisitante %></th>
+                    <th><%= partida.Visitante %></th>
+                    <th><%= partida.partidaRealizada  %></th>
+                    <th>
+                        <form method="POST" action="/palpite/save" class="dist-actions" onsubmit="verificarPalpite(event, this)">
+                            <input type="hidden" id="partida" name="partida" value="<%= partida.numeroPartida %>">
+                            <input type="hidden" id="campeonatoPalpite" name="campeonatoPalpite" value="<%= campeonatoPalpite %>">
+                            <input type="hidden" id="jogador" name="jogador" value="<%= jogador %>">
+                            <select id="palpite" name="palpite" class="form-element">
+                                <option value="V"></option>
+                                <option value="0">Empate</option>
+                                <option value="<%= partida.idMandante %>"><%= partida.Mandante %></option>
+                                <option value="<%= partida.idVisitante %>"><%= partida.Visitante %></option>
+                            </select>
+                            <button class="btn btn-warning">Salvar Palpite</button>
+                        </form>
+                    </th>
+                </tr>
+            <%}) %>
+
+        </tbody>
+    </table>
+</div>
+<script>
+    function verificarPalpite(event, form){
+        event.preventDefault();
+
+
+        if(form.palpite.value == 'V'){
+            alert("Você deve informar um resultado para o palpite ser gravado!")
+        }else{
+            form.submit();
+        }
+    }
+</script>
+
+<%- include ('../../partials/footer.ejs')%>
