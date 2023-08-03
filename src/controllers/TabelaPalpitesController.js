@@ -13,7 +13,8 @@ router.post('/tabela-palpites', async (req, res) => {
 
     if (idCampeonato !== undefined) {
         if (!Number.isNaN(idCampeonato)) {
-            const campeonato = await connection.query(`SELECT campeonatoId FROM campeonatopalpites WHERE id = ${idCampeonato}`);
+            const campeonatoRaw = await connection.query(`SELECT campeonatoId FROM campeonatopalpites WHERE id = ${idCampeonato}`);
+            const campeonato = campeonatoRaw[0][0].campeonatoId;
 
             const campeonatos = await connection.query(
             `
@@ -33,10 +34,10 @@ router.post('/tabela-palpites', async (req, res) => {
                 { type: QueryTypes.SELECT },
             );
 
-            const rodadas = await connection.query(`SELECT rodada from partidas WHERE campeonatoId = ${campeonato[0][0].campeonatoId} GROUP By rodada`, { type: QueryTypes.SELECT });
+            const rodadas = await connection.query(`SELECT rodada from partidas WHERE campeonatoId = ${campeonato} GROUP By rodada`, { type: QueryTypes.SELECT });
 
             res.render('admin/tabelaPalpites/index', {
-                campeonatos, idCampeonato, jogadores, rodadas,
+                campeonatos, idCampeonato, jogadores, rodadas, campeonato,
             });
         } else {
             res.render('/usuarios');

@@ -2,11 +2,27 @@
 <%- include ('../../partials/homeNavbar.ejs')%>
 
 <br>
-<div class="dist">
-    <a class="btn btn-info btnOrange" href="/campeonato-palpites">Voltar</a>
+<div class="dist-geral">
+    <div class="dist-menu">
+        <a class="btn btn-info" href="/campeonato-palpites">Voltar</a>
+    </div>
+    <div class="dist-menu">
+        <input type="hidden" id="campeonato" name="campeonato" value="<%= campeonato %>">
+        <input type="hidden" id="idCampeonato" name="idCampeonato" value="<%= idCampeonato %>">
+        <select id="jogador" name="jogador" class="form-element">
+            <% jogadores.forEach((jogador)=>{ %>
+                <option value="<%= jogador.id %>"><%= jogador.usuario %></option>
+            <% }) %>
+        </select>
+        <select id="rodada" name="rodada" class="form-element">
+            <% rodadas.forEach((rodada)=>{ %>
+                <option value="<%= rodada.rodada %>"><%= rodada.rodada %> ª Rodada</option>
+            <% }) %>
+        </select>
+        <a class="btn btn-info" onclick="consultarPalpites()">Consultar</a>
+    </div>
 </div>
 <div class="container">
-
     <h2>Participantes do Campeonato de Palpites</h2>
     <hr>
     <form action="/tabela-palpites/add-user" method="POST">
@@ -33,6 +49,22 @@
         </tbody>
     </table>
 </div>
+<script>
+    function consultarPalpites(){
+        const jogador = document.getElementById('jogador').value;
+        const rodada = document.getElementById('rodada').value;
+        const campeonatoPalpites = document.getElementById('idCampeonato').value;
+        const campeonato = document.getElementById('campeonato').value;
+
+        // window.location.href = `/palpites/${campeonato}/${campeonatoPalpites}/${jogador}/${rodada}/`;
+         alert(
+            "Jogador: " + jogador + "\n" +
+            "Rodada: " + rodada + "\n" +
+            "Campeonato de Palpites: " + campeonatoPalpites + "\n" +
+            "Campeonato: " + campeonato + "\n"
+         );
+    }
+</script>
 
 <%- include ('../../partials/footer.ejs')%>
 

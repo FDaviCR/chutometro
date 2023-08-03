@@ -3,6 +3,8 @@ const connection = require('../database/database');
 
 const Partida = require('./Partidas');
 const Usuario = require('./Usuarios');
+const Campeonato = require('./Campeonatos');
+const CampeonatoPalpite = require('./CampeonatoPalpites');
 
 const Palpite = connection.define('Palpites', {
     palpite: {
@@ -29,6 +31,8 @@ const Palpite = connection.define('Palpites', {
 
 Palpite.belongsTo(Partida);
 Palpite.belongsTo(Usuario);
+Palpite.belongsTo(Campeonato);
+Palpite.belongsTo(CampeonatoPalpite);
 
 Palpite.sync({ force: false });
 
