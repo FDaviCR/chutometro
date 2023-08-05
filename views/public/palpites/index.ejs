@@ -6,57 +6,75 @@
     <div class="dist-menu">
         <a class="btn btn-info" href="/">Voltar</a>
     </div>
+    <div class="dist-menu">
+        <input type="hidden" id="campeonato" name="campeonato" value="<%= campeonato %>">
+        <input type="hidden" id="idCampeonato" name="idCampeonato" value="<%= campeonatoPalpite %>">
+        <select id="jogador" name="jogador" class="form-element">
+            <% jogadores.forEach((jogador)=>{ %>
+                <option value="<%= jogador.id %>"><%= jogador.usuario %></option>
+            <% }) %>
+        </select>
+        <select id="rodada" name="rodada" class="form-element">
+            <% rodadas.forEach((rodada)=>{ %>
+                <option value="<%= rodada.rodada %>"><%= rodada.rodada %> ª Rodada</option>
+            <% }) %>
+        </select>
+        <a class="btn btn-info" onclick="consultarPalpites()">Consultar</a>
+    </div>
 </div>
 <div>
     <hr>
-    <h2>Palpites</h2>
+    <h2>Palpites para a <%= rodada %> ª Rodada</h2>
     <hr>
-    <table class="table no-border">
-        <thead>
-            <tr>
-                <th>Partida</th>
-                <th>Mandante</th>
-                <th>X</th>
-                <th>Visitante</th>
-                <th>Realizada?</th>
-                <th>Palpite</th>
-            </tr>
-        </thead>
-        <tbody>
-            <% partidas.forEach(partida=>{ %>
+    <% if(partidas.length > 0) { %>
+        <table class="table no-border">
+            <thead>
                 <tr>
-                    <th><%= partida.numeroPartida %></th>
-                    <th><%= partida.Mandante %></th>
-                    <th>x</th>
-                    <th><%= partida.Visitante %></th>
-                    <th>
-                        <% if( partida.partidaRealizada === 1){ %>
-                            Sim
-                        <% } else{ %>
-                            <p>Não</p>
-                        <% } %>
-                    </th>
-                    <th>
-                        <form method="POST" action="/palpite/save" class="dist-actions" onsubmit="verificarPalpite(event, this)">
-                            <input type="hidden" id="rodada" name="rodada" value="<%= rodada %>">
-                            <input type="hidden" id="partida" name="partida" value="<%= partida.numeroPartida %>">
-                            <input type="hidden" id="campeonatoPalpite" name="campeonatoPalpite" value="<%= campeonatoPalpite %>">
-                            <input type="hidden" id="jogador" name="jogador" value="<%= jogador %>">
-                            <input type="hidden" id="campeonato" name="campeonato" value="<%= campeonato %>">
-                            <select id="palpite" name="palpite" class="form-element">
-                                <option value="V"></option>
-                                <option value="0">Empate</option>
-                                <option value="<%= partida.idMandante %>"><%= partida.Mandante %></option>
-                                <option value="<%= partida.idVisitante %>"><%= partida.Visitante %></option>
-                            </select>
-                            <button class="btn btn-warning">Salvar Palpite</button>
-                        </form>
-                    </th>
+                    <th>Partida</th>
+                    <th>Mandante</th>
+                    <th>X</th>
+                    <th>Visitante</th>
+                    <th>Realizada?</th>
+                    <th>Palpite</th>
                 </tr>
-            <%}) %>
-
-        </tbody>
-    </table>
+            </thead>
+            <tbody>
+                <% partidas.forEach(partida=>{ %>
+                    <tr>
+                        <th><%= partida.numeroPartida %></th>
+                        <th><%= partida.Mandante %></th>
+                        <th>x</th>
+                        <th><%= partida.Visitante %></th>
+                        <th>
+                            <% if( partida.partidaRealizada === 1){ %>
+                                <p>Sim</p>
+                            <% } else{ %>
+                                <p>Não</p>
+                            <% } %>
+                        </th>
+                        <th>
+                            <form method="POST" action="/palpite/save" class="dist-actions" onsubmit="verificarPalpite(event, this)">
+                                <input type="hidden" id="rodada" name="rodada" value="<%= rodada %>">
+                                <input type="hidden" id="partida" name="partida" value="<%= partida.numeroPartida %>">
+                                <input type="hidden" id="campeonatoPalpite" name="campeonatoPalpite" value="<%= campeonatoPalpite %>">
+                                <input type="hidden" id="jogador" name="jogador" value="<%= jogador %>">
+                                <input type="hidden" id="campeonato" name="campeonato" value="<%= campeonato %>">
+                                <select id="palpite" name="palpite" class="form-element">
+                                    <option value="V"></option>
+                                    <option value="0">Empate</option>
+                                    <option value="<%= partida.idMandante %>"><%= partida.Mandante %></option>
+                                    <option value="<%= partida.idVisitante %>"><%= partida.Visitante %></option>
+                                </select>
+                                <button class="btn btn-warning">Salvar Palpite</button>
+                            </form>
+                        </th>
+                    </tr>
+                <%}) %>
+            </tbody>
+        </table>
+    <% } else{ %>
+        <h2 class="font-geral">Todos os palpites da rodada foram feitos!</h2>
+    <% } %>
 </div>
 <script>
     function verificarPalpite(event, form){

@@ -200,6 +200,10 @@ label{
     margin: auto;
 }
 
+.font-geral{
+    color: #F4F4F4;
+}
+
 .form-element{
     margin-right: 10px;
     margin-left: 10px;

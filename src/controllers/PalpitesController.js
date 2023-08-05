@@ -22,8 +22,19 @@ router.get('/palpites/:campeonato/:campeonatoPalpites/:jogador/:rodada', async (
         { type: QueryTypes.SELECT },
     );
 
+    const jogadores = await connection.query(
+        `
+        SELECT u.id, u.usuario FROM tabelapalpites as tp
+        INNER JOIN usuarios AS u ON u.id = tp.usuarioId
+        INNER JOIN campeonatopalpites AS cp ON cp.id = tp.CampeonatoPalpiteId
+        WHERE tp.CampeonatoPalpiteId = ${campeonatoPalpite}`,
+        { type: QueryTypes.SELECT },
+    );
+
+    const rodadas = await connection.query(`SELECT rodada from partidas WHERE campeonatoId = ${campeonato} GROUP By rodada`, { type: QueryTypes.SELECT });
+
     res.render('public/palpites/index', {
-        partidas, campeonatoPalpite, jogador, campeonato, rodada,
+        partidas, campeonatoPalpite, jogador, campeonato, rodada, jogadores, rodadas,
     });
 });
 
@@ -41,10 +52,21 @@ router.post('/palpite/save', async (req, res) => {
             INNER JOIN times AS m ON m.id = p.mandanteId
             INNER JOIN times AS v ON v.id = p.visitanteId
             LEFT JOIN palpites AS ppt ON p.id = ppt.partidaId and ppt.usuarioId = ${jogador}
-            WHERE p.campeonatoId = ${campeonato} AND p.rodada = ${rodada} AND palpite IS NULL
+            WHERE p.campeonatoId = ${campeonato} AND p.rodada = ${rodada} AND palpite IS NULL AND p.id != ${partidaId[0].id}
         `,
         { type: QueryTypes.SELECT },
     );
+
+    const jogadores = await connection.query(
+        `
+        SELECT u.id, u.usuario FROM tabelapalpites as tp
+        INNER JOIN usuarios AS u ON u.id = tp.usuarioId
+        INNER JOIN campeonatopalpites AS cp ON cp.id = tp.CampeonatoPalpiteId
+        WHERE tp.CampeonatoPalpiteId = ${campeonatoPalpite}`,
+        { type: QueryTypes.SELECT },
+    );
+
+    const rodadas = await connection.query(`SELECT rodada from partidas WHERE campeonatoId = ${campeonato} GROUP By rodada`, { type: QueryTypes.SELECT });
 
     Palpites.create({
         rodada,
@@ -57,7 +79,7 @@ router.post('/palpite/save', async (req, res) => {
         resultado: false,
     }).then(() => {
         res.render('public/palpites/index', {
-            campeonatoPalpite, jogador, campeonato, partidas, rodada,
+            campeonatoPalpite, jogador, campeonato, partidas, rodada, jogadores, rodadas,
         });
     });
 });
