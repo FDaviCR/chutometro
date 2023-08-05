@@ -4,7 +4,10 @@
 <br>
 <div class="dist-geral">
     <div class="dist-menu">
-        <a class="btn btn-info" href="/">Voltar</a>
+        <form action="/tabela-palpites" method="POST">
+            <input type="hidden" id="idCampeonato" name="idCampeonato" value="<%= campeonatoPalpite %>">
+            <button type="submit" class="btn btn-info">Voltar</button>
+        </form>
     </div>
     <div class="dist-menu">
         <input type="hidden" id="campeonato" name="campeonato" value="<%= campeonato %>">
@@ -24,7 +27,8 @@
 </div>
 <div>
     <hr>
-    <h2>Palpites <%= rodada %> ª Rodada</h2>
+    <h2>Jogador: <%= nomeJogador %> | Campeonato: <%= nomeCampeonatoPalpite %></h2>
+    <h4>Palpites: <%= rodada %> ª Rodada do <%= nomeCampeonato %></h4>
     <hr>
     <% if(partidas.length > 0) { %>
         <table class="table no-border">
@@ -95,6 +99,7 @@
 
         window.location.href = `/palpites/${campeonato}/${campeonatoPalpites}/${jogador}/${rodada}/`;
     }
+
 </script>
 
 <%- include ('../../partials/footer.ejs')%>

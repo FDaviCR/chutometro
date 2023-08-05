@@ -1,3 +1,4 @@
+/* eslint-disable max-len */
 const express = require('express');
 const { QueryTypes } = require('sequelize');
 const connection = require('../database/database');
@@ -33,9 +34,23 @@ router.get('/palpites/:campeonato/:campeonatoPalpites/:jogador/:rodada', async (
     );
 
     const rodadas = await connection.query(`SELECT rodada from partidas WHERE campeonatoId = ${campeonato} GROUP By rodada`, { type: QueryTypes.SELECT });
+    const jogadorNomeRaw = await connection.query(`SELECT usuario FROM usuarios WHERE id = ${jogador}`, { type: QueryTypes.SELECT });
+
+    const campeonatosNomesRaw = await connection.query(
+        `
+        SELECT CONCAT(c.Campeonato, " - ", c.Divisao, " - ", c.Ano) as campeonato, cp.apelido as campeonatoPalpite FROM campeonatos AS c
+        INNER JOIN campeonatopalpites AS cp ON c.id = cp.campeonatoId
+        WHERE cp.id = ${campeonatoPalpite}
+        `,
+        { type: QueryTypes.SELECT },
+    );
+
+    const nomeJogador = jogadorNomeRaw[0].usuario;
+    const nomeCampeonato = campeonatosNomesRaw[0].campeonato;
+    const nomeCampeonatoPalpite = campeonatosNomesRaw[0].campeonatoPalpite;
 
     res.render('public/palpites/index', {
-        partidas, campeonatoPalpite, jogador, campeonato, rodada, jogadores, rodadas,
+        partidas, campeonatoPalpite, jogador, campeonato, rodada, jogadores, rodadas, nomeJogador, nomeCampeonato, nomeCampeonatoPalpite,
     });
 });
 
@@ -69,6 +84,20 @@ router.post('/palpite/save', async (req, res) => {
     );
 
     const rodadas = await connection.query(`SELECT rodada from partidas WHERE campeonatoId = ${campeonato} GROUP By rodada`, { type: QueryTypes.SELECT });
+    const jogadorNomeRaw = await connection.query(`SELECT usuario FROM usuarios WHERE id = ${jogador}`, { type: QueryTypes.SELECT });
+
+    const campeonatosNomesRaw = await connection.query(
+        `
+        SELECT CONCAT(c.Campeonato, " - ", c.Divisao, " - ", c.Ano) as campeonato, cp.apelido as campeonatoPalpite FROM campeonatos AS c
+        INNER JOIN campeonatopalpites AS cp ON cp.campeonatoId
+        WHERE cp.id = ${campeonatoPalpite}
+        `,
+        { type: QueryTypes.SELECT },
+    );
+
+    const nomeJogador = jogadorNomeRaw[0].usuario;
+    const nomeCampeonato = campeonatosNomesRaw[0].campeonato;
+    const nomeCampeonatoPalpite = campeonatosNomesRaw[0].campeonatoPalpite;
 
     Palpites.create({
         rodada,
@@ -81,7 +110,7 @@ router.post('/palpite/save', async (req, res) => {
         resultado: false,
     }).then(() => {
         res.render('public/palpites/index', {
-            campeonatoPalpite, jogador, campeonato, partidas, rodada, jogadores, rodadas,
+            campeonatoPalpite, jogador, campeonato, partidas, rodada, jogadores, rodadas, nomeJogador, nomeCampeonato, nomeCampeonatoPalpite,
         });
     });
 });
