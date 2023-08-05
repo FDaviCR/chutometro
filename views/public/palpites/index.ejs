@@ -3,13 +3,8 @@
 
 <br>
 <div class="dist-geral">
-    <div class="dist-menu-left">
+    <div class="dist-menu">
         <a class="btn btn-info" href="/">Voltar</a>
-    </div>
-    <div class="dist-menu-right">
-        <input type="hidden" id="campeonatoPalpite" name="campeonatoPalpite" value="<%= campeonatoPalpite %>">
-        <input type="hidden" id="jogador" name="jogador" value="<%= jogador %>">
-        <a class="btn btn-info" onclick="consultarPalpites()">Registrar Palpites</a>
     </div>
 </div>
 <div>
@@ -41,9 +36,11 @@
                     <th><%= partida.partidaRealizada  %></th>
                     <th>
                         <form method="POST" action="/palpite/save" class="dist-actions" onsubmit="verificarPalpite(event, this)">
+                            <input type="hidden" id="rodada" name="rodada" value="<%= rodada %>">
                             <input type="hidden" id="partida" name="partida" value="<%= partida.numeroPartida %>">
                             <input type="hidden" id="campeonatoPalpite" name="campeonatoPalpite" value="<%= campeonatoPalpite %>">
                             <input type="hidden" id="jogador" name="jogador" value="<%= jogador %>">
+                            <input type="hidden" id="campeonato" name="campeonato" value="<%= campeonato %>">
                             <select id="palpite" name="palpite" class="form-element">
                                 <option value="V"></option>
                                 <option value="0">Empate</option>
@@ -62,7 +59,6 @@
 <script>
     function verificarPalpite(event, form){
         event.preventDefault();
-
 
         if(form.palpite.value == 'V'){
             alert("Você deve informar um resultado para o palpite ser gravado!")
