@@ -16,9 +16,7 @@
             <tr>
                 <th>Partida</th>
                 <th>Mandante</th>
-                <th>Gols Mandante</th>
                 <th>X</th>
-                <th>Gols Visitante</th>
                 <th>Visitante</th>
                 <th>Realizada?</th>
                 <th>Palpite</th>
@@ -29,11 +27,15 @@
                 <tr>
                     <th><%= partida.numeroPartida %></th>
                     <th><%= partida.Mandante %></th>
-                    <th><%= partida.golsMandante %></th>
                     <th>x</th>
-                    <th><%= partida.golsVisitante %></th>
                     <th><%= partida.Visitante %></th>
-                    <th><%= partida.partidaRealizada  %></th>
+                    <th>
+                        <% if( partida.partidaRealizada === 1){ %>
+                            Sim
+                        <% } else{ %>
+                            <p>Não</p>
+                        <% } %>
+                    </th>
                     <th>
                         <form method="POST" action="/palpite/save" class="dist-actions" onsubmit="verificarPalpite(event, this)">
                             <input type="hidden" id="rodada" name="rodada" value="<%= rodada %>">
