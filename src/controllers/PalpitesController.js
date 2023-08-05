@@ -16,8 +16,9 @@ router.get('/palpites/:campeonato/:campeonatoPalpites/:jogador/:rodada', async (
             FROM partidas AS p
             INNER JOIN times AS m ON m.id = p.mandanteId
             INNER JOIN times AS v ON v.id = p.visitanteId
+            INNER JOIN usuarios AS u ON u.id = ${jogador}
             LEFT JOIN palpites AS ppt ON p.id = ppt.partidaId and ppt.usuarioId = ${jogador}
-            WHERE p.campeonatoId = ${campeonato} AND p.rodada = ${rodada} AND palpite IS NULL
+            WHERE p.campeonatoId = ${campeonato} AND p.rodada = ${rodada} AND palpite IS NULL and (p.mandanteId <> u.timeId and p.visitanteId <> u.timeId)
         `,
         { type: QueryTypes.SELECT },
     );
@@ -51,8 +52,9 @@ router.post('/palpite/save', async (req, res) => {
             FROM partidas AS p
             INNER JOIN times AS m ON m.id = p.mandanteId
             INNER JOIN times AS v ON v.id = p.visitanteId
+            INNER JOIN usuarios AS u ON u.id = ${jogador}
             LEFT JOIN palpites AS ppt ON p.id = ppt.partidaId and ppt.usuarioId = ${jogador}
-            WHERE p.campeonatoId = ${campeonato} AND p.rodada = ${rodada} AND palpite IS NULL AND p.id != ${partidaId[0].id}
+            WHERE p.campeonatoId = ${campeonato} AND p.rodada = ${rodada} AND palpite IS NULL AND p.id != ${partidaId[0].id} and (p.mandanteId <> u.timeId and p.visitanteId <> u.timeId)
         `,
         { type: QueryTypes.SELECT },
     );

@@ -24,7 +24,7 @@
 </div>
 <div>
     <hr>
-    <h2>Palpites para a <%= rodada %> ª Rodada</h2>
+    <h2>Palpites <%= rodada %> ª Rodada</h2>
     <hr>
     <% if(partidas.length > 0) { %>
         <table class="table no-border">
@@ -85,6 +85,15 @@
         }else{
             form.submit();
         }
+    }
+
+    function consultarPalpites(){
+        const jogador = document.getElementById('jogador').value;
+        const rodada = document.getElementById('rodada').value;
+        const campeonatoPalpites = document.getElementById('idCampeonato').value;
+        const campeonato = document.getElementById('campeonato').value;
+
+        window.location.href = `/palpites/${campeonato}/${campeonatoPalpites}/${jogador}/${rodada}/`;
     }
 </script>
 
