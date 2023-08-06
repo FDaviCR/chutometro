@@ -115,4 +115,32 @@ router.post('/palpite/save', async (req, res) => {
     });
 });
 
+router.get('/palpites/list/:campeonatoPalpite/:rodada/:jogador', async (req, res) => {
+    const { rodada, jogador, campeonatoPalpite } = req.params;
+
+    const partidas = await connection.query(
+        `
+            SELECT ppt.partidaId, m.time as mandante, v.time AS visitante, ppt.palpite,
+            CASE
+                WHEN ppt.palpite = 0 THEN 'Empate'
+                WHEN ppt.palpite > 0 THEN pu.time
+
+            END AS Palpite
+            FROM palpites AS ppt
+            INNER JOIN partidas AS p ON ppt.partidaId = p.id
+            INNER JOIN times AS m ON m.id = p.mandanteId
+            INNER JOIN times AS v ON v.id = p.visitanteId
+            INNER JOIN campeonatopalpites AS cp ON ppt.campeonatoPalpiteId = cp.id
+            LEFT JOIN times AS pu ON pu.id = ppt.palpite
+            WHERE ppt.rodada = ${rodada} AND ppt.CampeonatoPalpiteId = ${campeonatoPalpite} AND ppt.usuarioId = ${jogador}
+
+        `,
+        { type: QueryTypes.SELECT },
+    );
+
+    res.render('public/palpites/list', {
+        partidas, campeonatoPalpite, jogador, rodada,
+    });
+});
+
 module.exports = router;
