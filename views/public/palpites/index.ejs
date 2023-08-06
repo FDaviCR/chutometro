@@ -22,7 +22,8 @@
                 <option value="<%= rodada.rodada %>"><%= rodada.rodada %> ª Rodada</option>
             <% }) %>
         </select>
-        <a class="btn btn-info" onclick="consultarPalpites()">Consultar</a>
+        <a class="btn btn-info" onclick="criarPalpites()">Criar Palpites</a>
+        <a class="btn btn-info" onclick="consultarPalpites()">Consultar Palpites</a>
     </div>
 </div>
 <div>
@@ -94,13 +95,22 @@
         }
     }
 
-    function consultarPalpites(){
+    function criarPalpites(){
         const jogador = document.getElementById('jogador').value;
         const rodada = document.getElementById('rodada').value;
         const campeonatoPalpites = document.getElementById('idCampeonato').value;
         const campeonato = document.getElementById('campeonato').value;
 
         window.location.href = `/palpites/${campeonato}/${campeonatoPalpites}/${jogador}/${rodada}/`;
+    }
+
+    function consultarPalpites(){
+        const jogador = document.getElementById('jogador').value;
+        const rodada = document.getElementById('rodada').value;
+        const campeonatoPalpites = document.getElementById('idCampeonato').value;
+        const campeonato = document.getElementById('campeonato').value;
+
+        window.location.href = `/palpites/list/${campeonato}/${campeonatoPalpites}/${jogador}/${rodada}/`;
     }
 
 </script>

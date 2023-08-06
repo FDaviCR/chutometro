@@ -116,7 +116,9 @@ router.post('/palpite/save', async (req, res) => {
 });
 
 router.get('/palpites/list/:campeonatoPalpite/:rodada/:jogador', async (req, res) => {
-    const { rodada, jogador, campeonatoPalpite } = req.params;
+    const {
+        rodada, jogador, campeonato, campeonatoPalpite,
+    } = req.params;
 
     const partidas = await connection.query(
         `
@@ -138,8 +140,23 @@ router.get('/palpites/list/:campeonatoPalpite/:rodada/:jogador', async (req, res
         { type: QueryTypes.SELECT },
     );
 
+    const jogadorNomeRaw = await connection.query(`SELECT usuario FROM usuarios WHERE id = ${jogador}`, { type: QueryTypes.SELECT });
+
+    const campeonatosNomesRaw = await connection.query(
+        `
+        SELECT CONCAT(c.Campeonato, " - ", c.Divisao, " - ", c.Ano) as campeonato, cp.apelido as campeonatoPalpite FROM campeonatos AS c
+        INNER JOIN campeonatopalpites AS cp ON c.id = cp.campeonatoId
+        WHERE cp.id = ${campeonatoPalpite}
+        `,
+        { type: QueryTypes.SELECT },
+    );
+
+    const nomeJogador = jogadorNomeRaw[0].usuario;
+    const nomeCampeonato = campeonatosNomesRaw[0].campeonato;
+    const nomeCampeonatoPalpite = campeonatosNomesRaw[0].campeonatoPalpite;
+
     res.render('public/palpites/list', {
-        partidas, campeonatoPalpite, jogador, rodada,
+        partidas, campeonato, campeonatoPalpite, jogador, rodada, nomeJogador, nomeCampeonato, nomeCampeonatoPalpite,
     });
 });
 
