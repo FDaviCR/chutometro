@@ -1,0 +1,104 @@
+<%- include ('../../partials/header.ejs')%>
+<%- include ('../../partials/homeNavbar.ejs')%>
+
+<br>
+<div class="dist-geral">
+    <div class="dist-menu">
+        <form action="/tabela-palpites" method="POST">
+            <input type="hidden" id="idCampeonato" name="idCampeonato" value="<%= campeonatoPalpite %>">
+            <button type="submit" class="btn btn-info">Voltar</button>
+        </form>
+    </div>
+    <div class="dist-menu">
+        <input type="hidden" id="campeonato" name="campeonato" value="<%= campeonato %>">
+        <input type="hidden" id="idCampeonato" name="idCampeonato" value="<%= campeonatoPalpite %>">
+        <select id="jogador" name="jogador" class="form-element">
+            <% jogadores.forEach((jogador)=>{ %>
+                <option value="<%= jogador.id %>"><%= jogador.usuario %></option>
+            <% }) %>
+        </select>
+        <select id="rodada" name="rodada" class="form-element">
+            <% rodadas.forEach((rodada)=>{ %>
+                <option value="<%= rodada.rodada %>"><%= rodada.rodada %> ª Rodada</option>
+            <% }) %>
+        </select>
+        <a class="btn btn-info" onclick="consultarPalpites()">Consultar</a>
+    </div>
+</div>
+<div>
+    <hr>
+    <h2>Jogador: <%= nomeJogador %> | Campeonato: <%= nomeCampeonatoPalpite %></h2>
+    <h4>Palpites: <%= rodada %> ª Rodada do <%= nomeCampeonato %></h4>
+    <hr>
+    <% if(partidas.length > 0) { %>
+        <table class="table no-border">
+            <thead>
+                <tr>
+                    <th>Partida</th>
+                    <th>Mandante</th>
+                    <th>X</th>
+                    <th>Visitante</th>
+
+                    <th>Palpite</th>
+                </tr>
+            </thead>
+            <tbody>
+                <% partidas.forEach(partida=>{ %>
+                    <tr>
+                        <th><%= partida.numeroPartida %></th>
+                        <th><%= partida.mandante %></th>
+                        <th>x</th>
+                        <th><%= partida.visitante %></th>
+                        <th><%= partida.Palpite %></th>
+                        <!--
+                        <th>
+                            <form method="POST" action="/palpite/save" class="dist-actions" onsubmit="verificarPalpite(event, this)">
+                                <input type="hidden" id="rodada" name="rodada" value="<%= rodada %>">
+                                <input type="hidden" id="partida" name="partida" value="<%= partida.numeroPartida %>">
+                                <input type="hidden" id="campeonatoPalpite" name="campeonatoPalpite" value="<%= campeonatoPalpite %>">
+                                <input type="hidden" id="jogador" name="jogador" value="<%= jogador %>">
+                                <input type="hidden" id="campeonato" name="campeonato" value="<%= campeonato %>">
+                                <select id="palpite" name="palpite" class="form-element">
+                                    <option value="V"></option>
+                                    <option value="0">Empate</option>
+                                    <option value="<%= partida.idMandante %>"><%= partida.Mandante %></option>
+                                    <option value="<%= partida.idVisitante %>"><%= partida.Visitante %></option>
+                                </select>
+                                <button class="btn btn-warning">Salvar Palpite</button>
+                            </form>
+                        </th>
+                        -->
+                    </tr>
+                <%}) %>
+            </tbody>
+        </table>
+    <% } else{ %>
+        <br>
+        <br>
+        <br>
+        <h2 class="font-geral">Todos os palpites da rodada foram feitos!</h2>
+    <% } %>
+</div>
+<script>
+    function verificarPalpite(event, form){
+        event.preventDefault();
+
+        if(form.palpite.value == 'V'){
+            alert("Você deve informar um resultado para o palpite ser gravado!")
+        }else{
+            form.submit();
+        }
+    }
+
+    function consultarPalpites(){
+        const jogador = document.getElementById('jogador').value;
+        const rodada = document.getElementById('rodada').value;
+        const campeonatoPalpites = document.getElementById('idCampeonato').value;
+        const campeonato = document.getElementById('campeonato').value;
+
+        window.location.href = `/palpites/${campeonato}/${campeonatoPalpites}/${jogador}/${rodada}/`;
+    }
+
+</script>
+
+<%- include ('../../partials/footer.ejs')%>

@@ -115,7 +115,7 @@ router.post('/palpite/save', async (req, res) => {
     });
 });
 
-router.get('/palpites/list/:campeonatoPalpite/:rodada/:jogador', async (req, res) => {
+router.get('/palpites/list/:campeonato/:campeonatoPalpite/:jogador/:rodada', async (req, res) => {
     const {
         rodada, jogador, campeonato, campeonatoPalpite,
     } = req.params;
@@ -135,7 +135,6 @@ router.get('/palpites/list/:campeonatoPalpite/:rodada/:jogador', async (req, res
             INNER JOIN campeonatopalpites AS cp ON ppt.campeonatoPalpiteId = cp.id
             LEFT JOIN times AS pu ON pu.id = ppt.palpite
             WHERE ppt.rodada = ${rodada} AND ppt.CampeonatoPalpiteId = ${campeonatoPalpite} AND ppt.usuarioId = ${jogador}
-
         `,
         { type: QueryTypes.SELECT },
     );
@@ -151,12 +150,22 @@ router.get('/palpites/list/:campeonatoPalpite/:rodada/:jogador', async (req, res
         { type: QueryTypes.SELECT },
     );
 
+    const jogadores = await connection.query(
+        `
+        SELECT u.id, u.usuario FROM tabelapalpites as tp
+        INNER JOIN usuarios AS u ON u.id = tp.usuarioId
+        INNER JOIN campeonatopalpites AS cp ON cp.id = tp.CampeonatoPalpiteId
+        WHERE tp.CampeonatoPalpiteId = ${campeonatoPalpite}`,
+        { type: QueryTypes.SELECT },
+    );
+
+    const rodadas = await connection.query(`SELECT rodada from partidas WHERE campeonatoId = ${campeonato} GROUP By rodada`, { type: QueryTypes.SELECT });
     const nomeJogador = jogadorNomeRaw[0].usuario;
     const nomeCampeonato = campeonatosNomesRaw[0].campeonato;
     const nomeCampeonatoPalpite = campeonatosNomesRaw[0].campeonatoPalpite;
 
     res.render('public/palpites/list', {
-        partidas, campeonato, campeonatoPalpite, jogador, rodada, nomeJogador, nomeCampeonato, nomeCampeonatoPalpite,
+        partidas, campeonato, campeonatoPalpite, jogador, rodada, nomeJogador, nomeCampeonato, nomeCampeonatoPalpite, jogadores, rodadas,
     });
 });
 
