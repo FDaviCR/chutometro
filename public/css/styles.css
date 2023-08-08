@@ -156,6 +156,10 @@ label{
     width: 90%;
 }
 
+.table-header{
+    background-color: #525252;
+}
+
 .bg-orange-total{
     background:rgba(252, 111, 18);
 }

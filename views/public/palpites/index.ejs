@@ -22,8 +22,8 @@
                 <option value="<%= rodada.rodada %>"><%= rodada.rodada %> ª Rodada</option>
             <% }) %>
         </select>
-        <a class="btn btn-info" onclick="criarPalpites()">Criar Palpites</a>
-        <a class="btn btn-info" onclick="consultarPalpites()">Consultar Palpites</a>
+        <a class="btn btn-info form-element" onclick="criarPalpites()">Criar Palpites</a>
+        <a class="btn btn-info form-element" onclick="consultarPalpites()">Consultar Palpites</a>
     </div>
 </div>
 <div>
@@ -33,11 +33,11 @@
     <hr>
     <% if(partidas.length > 0) { %>
         <table class="table no-border">
-            <thead>
+            <thead class="table-header">
                 <tr>
                     <th>Partida</th>
                     <th>Mandante</th>
-                    <th>X</th>
+                    <th></th>
                     <th>Visitante</th>
                     <th>Realizada?</th>
                     <th>Palpite</th>

@@ -22,7 +22,8 @@
                 <option value="<%= rodada.rodada %>"><%= rodada.rodada %> ª Rodada</option>
             <% }) %>
         </select>
-        <a class="btn btn-info" onclick="consultarPalpites()">Consultar</a>
+        <a class="btn btn-info form-element" onclick="criarPalpites()">Criar Palpites</a>
+        <a class="btn btn-info form-element" onclick="consultarPalpites()">Consultar Palpites</a>
     </div>
 </div>
 <div>
@@ -32,20 +33,17 @@
     <hr>
     <% if(partidas.length > 0) { %>
         <table class="table no-border">
-            <thead>
+            <thead class="table-header">
                 <tr>
-                    <th>Partida</th>
                     <th>Mandante</th>
                     <th>X</th>
                     <th>Visitante</th>
-
                     <th>Palpite</th>
                 </tr>
             </thead>
             <tbody>
                 <% partidas.forEach(partida=>{ %>
                     <tr>
-                        <th><%= partida.numeroPartida %></th>
                         <th><%= partida.mandante %></th>
                         <th>x</th>
                         <th><%= partida.visitante %></th>
@@ -76,7 +74,7 @@
         <br>
         <br>
         <br>
-        <h2 class="font-geral">Todos os palpites da rodada foram feitos!</h2>
+        <h2 class="font-geral">Os palpites não foram realizados!</h2>
     <% } %>
 </div>
 <script>
@@ -90,13 +88,22 @@
         }
     }
 
-    function consultarPalpites(){
+    function criarPalpites(){
         const jogador = document.getElementById('jogador').value;
         const rodada = document.getElementById('rodada').value;
         const campeonatoPalpites = document.getElementById('idCampeonato').value;
         const campeonato = document.getElementById('campeonato').value;
 
         window.location.href = `/palpites/${campeonato}/${campeonatoPalpites}/${jogador}/${rodada}/`;
+    }
+
+    function consultarPalpites(){
+        const jogador = document.getElementById('jogador').value;
+        const rodada = document.getElementById('rodada').value;
+        const campeonatoPalpite = document.getElementById('idCampeonato').value;
+        const campeonato = document.getElementById('campeonato').value;
+
+        window.location.href = `/palpites/list/${campeonato}/${campeonatoPalpite}/${jogador}/${rodada}/`;
     }
 
 </script>
