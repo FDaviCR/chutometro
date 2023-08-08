@@ -13,11 +13,13 @@
         <input type="hidden" id="campeonato" name="campeonato" value="<%= campeonato %>">
         <input type="hidden" id="idCampeonato" name="idCampeonato" value="<%= campeonatoPalpite %>">
         <select id="jogador" name="jogador" class="form-element">
+            <option selected="selected" value="<%= jogador %>"><%= nomeJogador %></option>
             <% jogadores.forEach((jogador)=>{ %>
                 <option value="<%= jogador.id %>"><%= jogador.usuario %></option>
             <% }) %>
         </select>
         <select id="rodada" name="rodada" class="form-element">
+            <option selected="selected" value="<%= rodada %>"><%= rodada %> ª Rodada</option>
             <% rodadas.forEach((rodada)=>{ %>
                 <option value="<%= rodada.rodada %>"><%= rodada.rodada %> ª Rodada</option>
             <% }) %>
