@@ -3,6 +3,8 @@ const { QueryTypes } = require('sequelize');
 const connection = require('../database/database');
 
 const router = express.Router();
+
+const processarResultadosPartidas = require('../functions/processarResultadosPartidas');
 // const bcrypt = require('bcryptjs');
 // const Partidas = require('../models/Partidas');
 // const Times = require('../models/Times');
@@ -39,5 +41,11 @@ router.get('/partidas/campeonato/:idCampeonato/:rodada', async (req, res) => {
 });
 
 /** FUNÇÕES DE PROCESSAMENTO DE DADOS */
+
+router.post('/partidas/processar-resultados/:idCampeonato/:rodada', async (req, res) => {
+    const { idCampeonato, rodada } = req.params;
+
+    processarResultadosPartidas(idCampeonato, rodada);
+});
 
 module.exports = router;
