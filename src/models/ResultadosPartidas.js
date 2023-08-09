@@ -4,7 +4,7 @@ const connection = require('../database/database');
 const Partidas = require('./Partidas');
 
 const ResultadosPartidas = connection.define('ResultadosPartidas', {
-    resutado: {
+    resultado: {
         type: Sequelize.INTEGER,
         allowNull: false,
     },
