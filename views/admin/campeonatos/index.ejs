@@ -28,11 +28,25 @@
                     <th><%= campeonato.Campeonato %></th>
                     <th><%= campeonato.Divisao %></th>
                     <th><%= campeonato.Ano %></th>
+                    <th>
+                        <form method="POST" action="/partidas/processar-resultados" class="dist-actions" onsubmit="verificarPalpite(event, this)">
+                            <input type="hidden" id="rodada" name="rodada" value="1">
+                            <input type="hidden" id="campeonato" name="campeonato" value="<%= campeonato.id %>">
+                            <button class="btn btn-warning">Ver Tabela</button>
+                        </form>
+                    </th>
                 </tr>
             <%}) %>
         </tbody>
     </table>
 </div>
+<script>
+    function verificarPalpite(event, form){
+        event.preventDefault();
+
+        form.submit();
+    }
+</script>
 
 
 <%- include ('../../partials/footer.ejs')%>

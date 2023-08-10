@@ -1,14 +1,48 @@
-<!DOCTYPE html>
-<html lang="pt-br">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Tabelas</title>
+<%- include ('../../partials/header.ejs')%>
+<%- include ('../../partials/homeNavbar.ejs')%>
 
-    <link rel="stylesheet" href="/css/bootstrap.min.css">
-    <link rel="stylesheet" type="text/css" href="/public/css/styles.css">
-    <link rel="shortcut icon" href="../../public/img/logo.png" type="image/x-icon" />
-    
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
-</head>
+<br>
+<div class="dist">
+    <a class="btn btn-info" href="/">Voltar</a>
+</div>
+<div class="container">
+    <hr>
+    <h2>Campeonatos</h2>
+    <hr>
+
+    <table class="table table-bordered bg-gray">
+        <thead>
+            <tr>
+                <th>Colocação</th>
+                <th>Time</th>
+                <th>Pts</th>
+                <th>PJ</th>
+                <th>Vit</th>
+                <th>Emp</th>
+                <th>Der</th>
+                <th>GM</th>
+                <th>GC</th>
+                <th>SG</th>
+            </tr>
+        </thead>
+        <tbody>
+            <% partidas.forEach(partida=>{ %>
+                <tr>
+                    <th><%= partida.colocacao %></th>
+                    <th><%= partida.Campeonato %></th>
+                    <th><%= partida.pontos %></th>
+                    <th><%= partida.jogos %></th>
+                    <th><%= partida.vitorias %></th>
+                    <th><%= partida.empates %></th>
+                    <th><%= partida.derrotas %></th>
+                    <th><%= partida.golsPro %></th>
+                    <th><%= partida.golsContra %></th>
+                    <th><%= partida.golsPro - partida.golsContra %></th>
+                </tr>
+            <%}) %>
+        </tbody>
+    </table>
+</div>
+
+
+<%- include ('../../partials/footer.ejs')%>

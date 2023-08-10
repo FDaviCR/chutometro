@@ -10,14 +10,8 @@
     <button class="card-item" onclick="redirecionarPartidas()">
         Partidas
     </button>
-    <button class="card-item" onclick="redirecionarTabelas()">
-        Tabelas
-    </button>
     <button class="card-item" onclick="redirecionarCampeonatosDePalpites()">
         Campeonato de Palpites
-    </button>
-    <button class="card-item" onclick="redirecionarPalpites()">
-        Palpites
     </button>
 </body>
 <script>
@@ -29,10 +23,6 @@
         window.location.href = `/times`;
     }
 
-    function redirecionarTabelas(){
-        window.location.href = `/tabelas`;
-    }
-
     function redirecionarPartidas(){
         window.location.href = `/partidas`;
     }
@@ -41,9 +31,6 @@
         window.location.href = `/campeonato-palpites`;
     }
 
-    function redirecionarPalpites(){
-        window.location.href = `/palpites`;
-    }
 </script>
 
 <%- include ("partials/footer.ejs") %>
