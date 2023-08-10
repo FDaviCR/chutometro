@@ -42,10 +42,28 @@ router.get('/partidas/campeonato/:idCampeonato/:rodada', async (req, res) => {
 
 /** FUNÇÕES DE PROCESSAMENTO DE DADOS */
 
-router.post('/partidas/processar-resultados/:idCampeonato/:rodada', async (req, res) => {
-    const { idCampeonato, rodada } = req.params;
+router.post('/partidas/processar-resultados', async (req, res) => {
+    const { idCampeonato, rodada } = req.body;
 
-    processarResultadosPartidas(idCampeonato, rodada);
+    const processadosResultaos = await processarResultadosPartidas(idCampeonato, rodada);
+    const partidas = await connection.query(`
+        select
+            tbl.colocacao,
+            t.time,
+            tbl.pontos,
+            tbl.jogos,
+            tbl.vitorias
+            tbl.derrota,
+            tbl.golsPro,
+            tbl.golsContra
+        from tabelas as tbl
+        inner join times as t on tbl.timeId = t.id
+        where campeonatoId = ${idCampeonato}
+    `, { type: QueryTypes.SELECT });
+
+    if (processadosResultaos === true) {
+        res.render('admin/tabelas/index', { partidas, idCampeonato, rodada });
+    }
 });
 
 module.exports = router;

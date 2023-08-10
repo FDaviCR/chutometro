@@ -21,6 +21,8 @@ async function processarResultadosPartidas(campeonatoId, rodada) {
             });
         }
     });
+
+    return true;
 }
 
 module.exports = processarResultadosPartidas;
