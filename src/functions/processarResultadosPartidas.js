@@ -1,9 +1,15 @@
+/* eslint-disable radix */
 /* eslint-disable max-len */
+const { QueryTypes } = require('sequelize');
 const Partidas = require('../models/Partidas');
 const ResultadosPartidas = require('../models/ResultadosPartidas');
 
+const connection = require('../database/database');
+
 async function processarResultadosPartidas(campeonatoId, rodada) {
-    Partidas.findAll({ where: { campeonatoId, Rodada: rodada, partidaRealizada: true } }).then((partida) => {
+    const partidas = await connection.query(`SELECT * from partidas WHERE campeonatoId = ${campeonatoId} and rodada = ${rodada}`, { type: QueryTypes.SELECT });
+
+    partidas.forEach((partida) => {
         if (partida.golsMandante > partida.golsVisitante) {
             ResultadosPartidas.create({
                 resultado: partida.mandanteId,

@@ -31,7 +31,7 @@
                     <th>
                         <form method="POST" action="/partidas/processar-resultados" class="dist-actions" onsubmit="verificarPalpite(event, this)">
                             <input type="hidden" id="rodada" name="rodada" value="1">
-                            <input type="hidden" id="campeonato" name="campeonato" value="<%= campeonato.id %>">
+                            <input type="hidden" id="idCampeonato" name="idCampeonato" value="<%= campeonato.id %>">
                             <button class="btn btn-warning">Ver Tabela</button>
                         </form>
                     </th>

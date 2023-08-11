@@ -45,7 +45,10 @@ router.get('/partidas/campeonato/:idCampeonato/:rodada', async (req, res) => {
 router.post('/partidas/processar-resultados', async (req, res) => {
     const { idCampeonato, rodada } = req.body;
 
-    const processadosResultaos = await processarResultadosPartidas(idCampeonato, rodada);
+    const processadosResultados = await processarResultadosPartidas(idCampeonato, rodada);
+    console.log(idCampeonato, rodada);
+    console.log(processadosResultados);
+    /*
     const partidas = await connection.query(`
         select
             tbl.colocacao,
@@ -64,6 +67,7 @@ router.post('/partidas/processar-resultados', async (req, res) => {
     if (processadosResultaos === true) {
         res.render('admin/tabelas/index', { partidas, idCampeonato, rodada });
     }
+    */
 });
 
 module.exports = router;

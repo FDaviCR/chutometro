@@ -50,6 +50,10 @@ const Tabela = connection.define('tabelas', {
         allowNull: false,
         default: 0,
     },
+    rodada: {
+        type: Sequelize.INTEGER,
+        allowNull: false,
+    },
     ativo: {
         type: Sequelize.BOOLEAN,
         allowNull: false,
