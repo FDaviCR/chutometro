@@ -3,8 +3,10 @@ const { QueryTypes } = require('sequelize');
 const connection = require('../database/database');
 
 const router = express.Router();
+const Campeonatos = require('../models/Campeonatos');
 
 const processarResultadosPartidas = require('../functions/processarResultadosPartidas');
+const processarResultadosTabela = require('../functions/processarResultadosTabela');
 // const bcrypt = require('bcryptjs');
 // const Partidas = require('../models/Partidas');
 // const Times = require('../models/Times');
@@ -45,28 +47,36 @@ router.get('/partidas/campeonato/:idCampeonato/:rodada', async (req, res) => {
 router.post('/partidas/processar-resultados', async (req, res) => {
     const { idCampeonato, rodada } = req.body;
 
-    const processadosResultados = await processarResultadosPartidas(idCampeonato, rodada);
-    console.log(idCampeonato, rodada);
-    console.log(processadosResultados);
-    /*
-    const partidas = await connection.query(`
-        select
-            tbl.colocacao,
-            t.time,
-            tbl.pontos,
-            tbl.jogos,
-            tbl.vitorias
-            tbl.derrota,
-            tbl.golsPro,
-            tbl.golsContra
-        from tabelas as tbl
-        inner join times as t on tbl.timeId = t.id
-        where campeonatoId = ${idCampeonato}
-    `, { type: QueryTypes.SELECT });
+    const processarResultados = await processarResultadosPartidas(idCampeonato, rodada);
 
-    if (processadosResultaos === true) {
-        res.render('admin/tabelas/index', { partidas, idCampeonato, rodada });
+    if (processarResultados === true) {
+        const processarTabela = await processarResultadosTabela(idCampeonato, rodada);
+
+        if (processarTabela === true) {
+            Campeonatos.findAll().then((campeonatos) => {
+                res.render('admin/campeonatos/index', { campeonatos });
+            });
+        }
     }
+
+    /*
+    if (processarResultados === true && processarTabela === true) {
+        const partidas = await connection.query(`
+            select
+                tbl.colocacao,
+                t.time,
+                tbl.pontos,
+                tbl.jogos,
+                tbl.vitorias
+                tbl.derrota,
+                tbl.golsPro,
+                tbl.golsContra
+            from tabelas as tbl
+            inner join times as t on tbl.timeId = t.id
+            where campeonatoId = ${idCampeonato}
+        `, { type: QueryTypes.SELECT });
+
+        res.render('admin/tabelas/index', { partidas, idCampeonato, rodada });
     */
 });
 

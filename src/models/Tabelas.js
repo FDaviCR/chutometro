@@ -7,7 +7,7 @@ const Time = require('./Times');
 const Tabela = connection.define('tabelas', {
     colocacao: {
         type: Sequelize.INTEGER,
-        allowNull: false,
+        allowNull: true,
         default: 0,
     },
     pontos: {
@@ -37,7 +37,7 @@ const Tabela = connection.define('tabelas', {
     },
     porcentagem: {
         type: Sequelize.INTEGER,
-        allowNull: false,
+        allowNull: true,
         default: 0,
     },
     golsPro: {

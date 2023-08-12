@@ -1,7 +1,6 @@
 /* eslint-disable radix */
 /* eslint-disable max-len */
 const { QueryTypes } = require('sequelize');
-const Partidas = require('../models/Partidas');
 const ResultadosPartidas = require('../models/ResultadosPartidas');
 
 const connection = require('../database/database');
