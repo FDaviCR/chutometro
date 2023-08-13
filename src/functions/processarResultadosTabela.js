@@ -7,31 +7,27 @@ const connection = require('../database/database');
 
 async function criarDadosRodada(rodada, time, vitoria, derrota, empate, pontos, golsPro, golsContra, campeonato) {
     if (rodada !== 1) {
-        // Do nothing
-        /*
         const registroAnterior = await connection.query(`
-            SELECT * FROM partidas as p
-            INNER JOIN resultadospartidas as rp ON p.id = rp.partidaId
-            WHERE campeonatoId = ${campeonato} and Rodada = ${rodada}
+            SELECT * from tabelas
+            WHERE campeonatoId = ${campeonato} AND timeId = ${time} AND rodada = (SELECT max(rodada) from tabelas
+            WHERE campeonatoId = ${campeonato}  AND timeId = ${time})
         `, { type: QueryTypes.SELECT });
 
         Tabela.create({
-            pontos,
-            jogos: 1,
-            vitorias: 1,
-            derrotas: 0,
-            empates: 0,
-            porcentagem: 100,
-            golsPro,
-            golsContra,
+            pontos: registroAnterior.pontos + pontos,
+            jogos: registroAnterior.jogos + 1,
+            vitorias: registroAnterior.vitorias + vitoria,
+            derrotas: registroAnterior.derrotas + derrota,
+            empates: registroAnterior.empates + empate,
+            porcentagem: 0,
+            golsPro: registroAnterior.golsPro + golsPro,
+            golsContra: registroAnterior.golsContra + golsContra,
             rodada,
             ativo: 1,
             campeonatoId: campeonato,
             timeId: time,
         });
-        */
     } else {
-        // console.log(`Partida: ${time}`);
         Tabela.create({
             pontos,
             jogos: 1,
