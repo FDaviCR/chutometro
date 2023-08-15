@@ -29,7 +29,7 @@
                     <th><%= campeonato.Divisao %></th>
                     <th><%= campeonato.Ano %></th>
                     <th>
-                        <form method="POST" action="/partidas/processar-resultados" class="dist-actions" onsubmit="verificarPalpite(event, this)">
+                        <form method="POST" action="/tabela/campeonato" class="dist-actions" onsubmit="verificarPalpite(event, this)">
                             <input type="hidden" id="rodada" name="rodada" value="1">
                             <input type="hidden" id="idCampeonato" name="idCampeonato" value="<%= campeonato.id %>">
                             <button class="btn btn-warning">Ver Tabela</button>

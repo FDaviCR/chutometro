@@ -56,34 +56,23 @@ router.post('/partidas/processar-resultados', async (req, res) => {
             res.render('admin/tabelas/index', { partidas, idCampeonato, rodada });
         });
     }
+
     const resultadosPartidas = await processarResultadosPartidas(idCampeonato, rodada);
     if (resultadosPartidas === true) {
         await processarResultadosTabela(idCampeonato, rodada);
         setTimeout(redirecionarTabela, 8000);
-    } else {
-        console.log('P1 não retornou a tempo');
     }
+});
 
-        /*
-        const partidas = await connection.query(`
-            select
-                tbl.colocacao,
-                t.time,
-                tbl.pontos,
-                tbl.jogos,
-                tbl.vitorias,
-                tbl.derrotas,
-                tbl.golsPro,
-                tbl.golsContra
-            from tabelas as tbl
-            inner join times as t on tbl.timeId = t.id
-            where campeonatoId = ${idCampeonato} and rodada = ${rodada}
-        `, { type: QueryTypes.SELECT });
+router.post('/tabela/campeonato', async (req, res) => {
+    const { idCampeonato, rodada } = req.body;
 
-        console.log(partidas);
-
-        res.redirect('admin/tabelas/index', { partidas, idCampeonato, rodada });
-        */
+    Tabela.findAll({
+        where: { campeonatoId: idCampeonato, rodada },
+        include: [{ model: Time }],
+    }).then((partidas) => {
+        res.render('admin/tabelas/index', { partidas, idCampeonato, rodada });
+    });
 });
 
 module.exports = router;
