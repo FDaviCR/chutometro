@@ -6,9 +6,6 @@ const Tabela = require('../models/Tabelas');
 const connection = require('../database/database');
 
 async function criarDadosRodada(rodada, time, vitoria, derrota, empate, pontos, golsPro, golsContra, campeonato) {
-    console.log('---------------------------------------------------------------------------------------------');
-    console.log(`--------------------------------------${time}----------------------------------------------`);
-    console.log('---------------------------------------------------------------------------------------------');
     if (rodada !== 1) {
         const registroAnterior = await connection.query(`
             SELECT * from tabelas

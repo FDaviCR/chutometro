@@ -5,7 +5,6 @@ const ResultadosPartidas = require('../models/ResultadosPartidas');
 const connection = require('../database/database');
 
 async function processarResultadosPartidas(campeonatoId, rodada) {
-    console.log('P1');
     const partidas = await connection.query(`
         SELECT * from partidas WHERE campeonatoId = ${campeonatoId} and rodada = ${rodada}
     `, { type: QueryTypes.SELECT });
