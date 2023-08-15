@@ -45,15 +45,20 @@ router.get('/partidas/campeonato/:idCampeonato/:rodada', async (req, res) => {
 
 /** FUNÇÕES DE PROCESSAMENTO DE DADOS */
 
-router.post('/partidas/processar-resultados', async (req, res) => {
-    const { idCampeonato, rodada } = req.body;
+router.get('/partidas/processar-resultados/:idCampeonato/:rodada', async (req, res) => {
+    const { idCampeonato, rodada } = req.params;
+
+    const campeonatos = await connection.query('SELECT * FROM campeonatos', { type: QueryTypes.SELECT });
+    const rodadas = await connection.query(`SELECT rodada from partidas WHERE campeonatoId = ${campeonatos[0].id} GROUP By rodada`, { type: QueryTypes.SELECT });
 
     async function redirecionarTabela() {
         Tabela.findAll({
             where: { campeonatoId: idCampeonato, rodada },
             include: [{ model: Time }],
         }).then((partidas) => {
-            res.render('admin/tabelas/index', { partidas, idCampeonato, rodada });
+            res.render('admin/tabelas/index', {
+                partidas, idCampeonato, rodada, campeonatos, rodadas,
+            });
         });
     }
 
@@ -67,11 +72,16 @@ router.post('/partidas/processar-resultados', async (req, res) => {
 router.post('/tabela/campeonato', async (req, res) => {
     const { idCampeonato, rodada } = req.body;
 
+    const campeonatos = await connection.query('SELECT * FROM campeonatos', { type: QueryTypes.SELECT });
+    const rodadas = await connection.query(`SELECT rodada from partidas WHERE campeonatoId = ${campeonatos[0].id} GROUP By rodada`, { type: QueryTypes.SELECT });
+
     Tabela.findAll({
         where: { campeonatoId: idCampeonato, rodada },
         include: [{ model: Time }],
     }).then((partidas) => {
-        res.render('admin/tabelas/index', { partidas, idCampeonato, rodada });
+        res.render('admin/tabelas/index', {
+            partidas, idCampeonato, rodada, campeonatos, rodadas,
+        });
     });
 });
 

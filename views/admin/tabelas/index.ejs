@@ -2,8 +2,23 @@
 <%- include ('../../partials/homeNavbar.ejs')%>
 
 <br>
-<div class="dist">
-    <a class="btn btn-info" href="/">Voltar</a>
+<div class="dist-geral">
+    <div class="dist-menu">
+        <a class="btn btn-info" href="/campeonatos">Voltar</a>
+    </div>
+    <div class="dist-menu">
+        <select id="campeonato" name="campeonato" class="form-element">
+            <% campeonatos.forEach((campeonato)=>{ %>
+                <option value="<%= campeonato.id %>"><%= campeonato.Campeonato +" - "+ campeonato.Divisao +" - "+ campeonato.Ano %></option>
+            <% }) %>
+        </select>
+        <select id="rodada" name="rodada" class="form-element">
+            <% rodadas.forEach((rodada)=>{ %>
+                <option value="<%= rodada.rodada %>"><%= rodada.rodada %> ª Rodada</option>
+            <% }) %>
+        </select>
+        <a class="btn btn-info" onclick="campeonatoRodada()">Consultar</a>
+    </div>
 </div>
 <div class="container">
     <hr>
@@ -43,6 +58,13 @@
         </tbody>
     </table>
 </div>
+<script>
+    function campeonatoRodada(){
+        const campeonato = document.getElementById('campeonato').value;
+        const rodada = document.getElementById('rodada').value;
 
+        window.location.href = `/partidas/processar-resultados/${campeonato}/${rodada}`;
+    }
+</script>
 
 <%- include ('../../partials/footer.ejs')%>
