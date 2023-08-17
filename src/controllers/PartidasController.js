@@ -55,17 +55,22 @@ router.get('/partidas/processar-resultados/:idCampeonato/:rodada', async (req, r
         Tabela.findAll({
             where: { campeonatoId: idCampeonato, rodada },
             include: [{ model: Time }],
+            order: [['pontos', 'DESC'], ['vitorias', 'DESC']],
         }).then((partidas) => {
             res.render('admin/tabelas/index', {
                 partidas, idCampeonato, rodada, campeonatos, rodadas,
             });
         });
     }
+    const qtdPartidas = await connection.query(`SELECT count(1) from tabelas WHERE campeonatoId = ${idCampeonato}  AND rodada = ${rodada}`, { type: QueryTypes.SELECT });
 
-    const resultadosPartidas = await processarResultadosPartidas(idCampeonato, rodada);
-    if (resultadosPartidas === true) {
-        await processarResultadosTabela(idCampeonato, rodada);
-        setTimeout(redirecionarTabela, 8000);
+    console.log(qtdPartidas);
+    if (qtdPartidas !== 10) {
+        const resultadosPartidas = await processarResultadosPartidas(idCampeonato, rodada);
+        if (resultadosPartidas === true) {
+            await processarResultadosTabela(idCampeonato, rodada);
+            setTimeout(redirecionarTabela, 8000);
+        }
     }
 });
 
@@ -78,6 +83,7 @@ router.post('/tabela/campeonato', async (req, res) => {
     Tabela.findAll({
         where: { campeonatoId: idCampeonato, rodada },
         include: [{ model: Time }],
+        order: [['pontos', 'DESC'], ['vitorias', 'DESC']],
     }).then((partidas) => {
         res.render('admin/tabelas/index', {
             partidas, idCampeonato, rodada, campeonatos, rodadas,

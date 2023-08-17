@@ -9,19 +9,18 @@ async function criarDadosRodada(rodada, time, vitoria, derrota, empate, pontos, 
     if (rodada !== 1) {
         const registroAnterior = await connection.query(`
             SELECT * from tabelas
-            WHERE campeonatoId = ${campeonato} AND timeId = ${time} AND rodada = (SELECT max(rodada) from tabelas
-            WHERE campeonatoId = ${campeonato}  AND timeId = ${time})
+            WHERE campeonatoId = ${campeonato} AND timeId = ${time} AND rodada = ${rodada}
         `, { type: QueryTypes.SELECT });
 
         await Tabela.create({
-            pontos: registroAnterior.pontos + pontos,
-            jogos: registroAnterior.jogos + 1,
-            vitorias: registroAnterior.vitorias + vitoria,
-            derrotas: registroAnterior.derrotas + derrota,
-            empates: registroAnterior.empates + empate,
+            pontos: registroAnterior[0].pontos + pontos,
+            jogos: registroAnterior[0].jogos + 1,
+            vitorias: registroAnterior[0].vitorias + vitoria,
+            derrotas: registroAnterior[0].derrotas + derrota,
+            empates: registroAnterior[0].empates + empate,
             porcentagem: 0,
-            golsPro: registroAnterior.golsPro + golsPro,
-            golsContra: registroAnterior.golsContra + golsContra,
+            golsPro: registroAnterior[0].golsPro + golsPro,
+            golsContra: registroAnterior[0].golsContra + golsContra,
             rodada,
             ativo: 1,
             campeonatoId: campeonato,
