@@ -7,19 +7,13 @@
         <a class="btn btn-info" href="/campeonatos">Voltar</a>
     </div>
     <div class="dist-menu">
-        <!--
-        <form method="POST" action="/tabela/campeonato" class="dist-actions" onsubmit="verificarPalpite(event, this)">
-            <input type="hidden" id="rodada" name="rodada" value="1">
-            <input type="hidden" id="idCampeonato" name="idCampeonato" value="">
-            <button class="btn btn-warning">Ver Tabela</button>
-        </form>
-        -->
         <select id="campeonato" name="campeonato" class="form-element">
             <% campeonatos.forEach((campeonato)=>{ %>
                 <option value="<%= campeonato.id %>"><%= campeonato.Campeonato +" - "+ campeonato.Divisao +" - "+ campeonato.Ano %></option>
             <% }) %>
         </select>
         <select id="rodada" name="rodada" class="form-element">
+            <option selected="selected" value="<%= rodada %>"><%= rodada %> ª Rodada</option>
             <% rodadas.forEach((rodada)=>{ %>
                 <option value="<%= rodada.rodada %>"><%= rodada.rodada %> ª Rodada</option>
             <% }) %>
@@ -29,7 +23,8 @@
 </div>
 <div class="container">
     <hr>
-    <h2>Campeonatos</h2>
+    <h2><%= nomeCampeonato %></h2>
+    <h4><%= rodada %> ª Rodada</h4>
     <hr>
 
     <table class="table table-bordered bg-gray">

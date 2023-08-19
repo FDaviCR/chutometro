@@ -51,6 +51,16 @@ router.get('/partidas/processar-resultados/:idCampeonato/:rodada', async (req, r
     const campeonatos = await connection.query('SELECT * FROM campeonatos', { type: QueryTypes.SELECT });
     const rodadas = await connection.query(`SELECT rodada from partidas WHERE campeonatoId = ${campeonatos[0].id} GROUP By rodada`, { type: QueryTypes.SELECT });
 
+    const campeonatosNomesRaw = await connection.query(
+        `
+        SELECT CONCAT(c.Campeonato, " - ", c.Divisao, " - ", c.Ano) as campeonato FROM campeonatos AS c
+        WHERE c.id = ${idCampeonato}
+        `,
+        { type: QueryTypes.SELECT },
+    );
+
+    const nomeCampeonato = campeonatosNomesRaw[0].campeonato;
+
     async function redirecionarTabela() {
         Tabela.findAll({
             where: { campeonatoId: idCampeonato, rodada },
@@ -58,19 +68,20 @@ router.get('/partidas/processar-resultados/:idCampeonato/:rodada', async (req, r
             order: [['pontos', 'DESC'], ['vitorias', 'DESC']],
         }).then((partidas) => {
             res.render('admin/tabelas/index', {
-                partidas, idCampeonato, rodada, campeonatos, rodadas,
+                partidas, idCampeonato, rodada, campeonatos, rodadas, nomeCampeonato,
             });
         });
     }
-    const qtdPartidas = await connection.query(`SELECT count(1) as qtd from tabelas WHERE campeonatoId = ${idCampeonato}  AND rodada = ${rodada}`, { type: QueryTypes.SELECT });
+    const qtdPartidas = await connection.query(`SELECT count(1) as qtd from tabelas WHERE campeonatoId = ${idCampeonato} AND rodada = ${rodada}`, { type: QueryTypes.SELECT });
 
-    console.log(`QTD: ${qtdPartidas[0].qtd}`);
     if (qtdPartidas[0].qtd !== 20) {
         const resultadosPartidas = await processarResultadosPartidas(idCampeonato, rodada);
         if (resultadosPartidas === true) {
             await processarResultadosTabela(idCampeonato, rodada);
             setTimeout(redirecionarTabela, 8000);
         }
+    } else {
+        redirecionarTabela();
     }
 });
 
@@ -80,13 +91,23 @@ router.post('/tabela/campeonato', async (req, res) => {
     const campeonatos = await connection.query('SELECT * FROM campeonatos', { type: QueryTypes.SELECT });
     const rodadas = await connection.query(`SELECT rodada from partidas WHERE campeonatoId = ${campeonatos[0].id} GROUP By rodada`, { type: QueryTypes.SELECT });
 
+    const campeonatosNomesRaw = await connection.query(
+        `
+        SELECT CONCAT(c.Campeonato, " - ", c.Divisao, " - ", c.Ano) as campeonato FROM campeonatos AS c
+        WHERE c.id = ${idCampeonato}
+        `,
+        { type: QueryTypes.SELECT },
+    );
+
+    const nomeCampeonato = campeonatosNomesRaw[0].campeonato;
+
     Tabela.findAll({
         where: { campeonatoId: idCampeonato, rodada },
         include: [{ model: Time }],
         order: [['pontos', 'DESC'], ['vitorias', 'DESC']],
     }).then((partidas) => {
         res.render('admin/tabelas/index', {
-            partidas, idCampeonato, rodada, campeonatos, rodadas,
+            partidas, idCampeonato, rodada, campeonatos, rodadas, nomeCampeonato,
         });
     });
 });
