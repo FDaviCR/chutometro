@@ -9,7 +9,7 @@ async function criarDadosRodada(rodada, time, vitoria, derrota, empate, pontos, 
     if (rodada !== 1) {
         const registroAnterior = await connection.query(`
             SELECT * from tabelas
-            WHERE campeonatoId = ${campeonato} AND timeId = ${time} AND rodada = ${rodada}
+            WHERE campeonatoId = ${campeonato} AND timeId = ${time} AND rodada = ${rodada - 1}
         `, { type: QueryTypes.SELECT });
 
         await Tabela.create({

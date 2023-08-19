@@ -62,10 +62,10 @@ router.get('/partidas/processar-resultados/:idCampeonato/:rodada', async (req, r
             });
         });
     }
-    const qtdPartidas = await connection.query(`SELECT count(1) from tabelas WHERE campeonatoId = ${idCampeonato}  AND rodada = ${rodada}`, { type: QueryTypes.SELECT });
+    const qtdPartidas = await connection.query(`SELECT count(1) as qtd from tabelas WHERE campeonatoId = ${idCampeonato}  AND rodada = ${rodada}`, { type: QueryTypes.SELECT });
 
-    console.log(qtdPartidas);
-    if (qtdPartidas !== 10) {
+    console.log(`QTD: ${qtdPartidas[0].qtd}`);
+    if (qtdPartidas[0].qtd !== 20) {
         const resultadosPartidas = await processarResultadosPartidas(idCampeonato, rodada);
         if (resultadosPartidas === true) {
             await processarResultadosTabela(idCampeonato, rodada);
