@@ -8,9 +8,6 @@ const Time = require('../models/Times');
 
 const processarResultadosPartidas = require('../functions/processarResultadosPartidas');
 const processarResultadosTabela = require('../functions/processarResultadosTabela');
-// const bcrypt = require('bcryptjs');
-// const Partidas = require('../models/Partidas');
-// const Times = require('../models/Times');
 
 /** ROTAS DE RENDERIZAÇÃO DE PÁGINAS */
 router.get('/partidas', async (req, res) => {
@@ -78,7 +75,7 @@ router.get('/partidas/processar-resultados/:idCampeonato/:rodada', async (req, r
         const resultadosPartidas = await processarResultadosPartidas(idCampeonato, rodada);
         if (resultadosPartidas === true) {
             await processarResultadosTabela(idCampeonato, rodada);
-            setTimeout(redirecionarTabela, 8000);
+            setTimeout(redirecionarTabela, 30000);
         }
     } else {
         redirecionarTabela();

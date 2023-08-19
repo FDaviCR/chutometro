@@ -45,7 +45,7 @@
         <tbody>
             <% partidas.forEach(partida=>{ %>
                 <tr>
-                    <th><%= partida.colocacao %></th>
+                    <th><%= partidas.indexOf(partida) + 1 %></th>
                     <th><%= partida.time.time %></th>
                     <th><%= partida.pontos %></th>
                     <th><%= partida.jogos %></th>
