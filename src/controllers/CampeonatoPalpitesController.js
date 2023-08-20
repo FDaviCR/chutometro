@@ -43,22 +43,23 @@ router.post('/campeonato-palpites/create', (req, res) => {
     });
 });
 
-router.post('/campeonato-palpites/processar/:idCampeonato/:rodada', async (req, res) => {
-    const { idCampeonato, rodada } = req.params;
+router.get('/campeonato-palpites/processar/:campeonato/:campeonatoPalpites/:rodada', async (req, res) => {
+    const { campeonato, campeonatoPalpites, rodada } = req.params;
 
     const partidas = await connection.query(`
         SELECT r.* from partidas AS p
         INNER JOIN resultadospartidas AS r ON p.id = r.partidaId
-        WHERE p.campeonatoId = ${idCampeonato} and p.rodada = ${rodada}
+        WHERE p.campeonatoId = ${campeonato} and p.rodada = ${rodada}
     `, { type: QueryTypes.SELECT });
 
+    console.log('Partidas');
     partidas.forEach(async (partida) => {
         const palpites = await connection.query(`
-            SELECT * FROM palpites WHERE partidaId = ${partida.partidaId}
+            SELECT * FROM palpites WHERE partidaId = ${partida.partidaId} AND CampeonatoPalpiteId = ${campeonatoPalpites}
         `, { type: QueryTypes.SELECT });
 
         palpites.forEach(async (palpite) => {
-            if (palpite.palpite === partida.partida.resultado) {
+            if (palpite.palpite === partida.resultado) {
                 Palpite.update(
                     { valido: 1, resultado: 1 },
                     { where: { partidaId: partida.partidaId } },
@@ -72,7 +73,9 @@ router.post('/campeonato-palpites/processar/:idCampeonato/:rodada', async (req, 
         });
     });
 
-    res.redirect();
+    CampeonatoPaltipes.findAll().then((campeonatos) => {
+        res.render('admin/campeonatoPalpites/index', { campeonatos });
+    });
 });
 
 router.get('/campeonato-palpites/list/:idCampeonato/:rodada', async (req, res) => {

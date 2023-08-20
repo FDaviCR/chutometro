@@ -20,6 +20,7 @@
             <% }) %>
         </select>
         <a class="btn btn-info" onclick="consultarPalpites()">Consultar</a>
+        <a class="btn btn-info" onclick="processarPalpites()">Processar Palpites</a>
     </div>
 </div>
 <div class="container">
@@ -57,6 +58,14 @@
         const campeonato = document.getElementById('campeonato').value;
 
         window.location.href = `/palpites/${campeonato}/${campeonatoPalpites}/${jogador}/${rodada}/`;
+    }
+
+    function processarPalpites(){
+        const rodada = document.getElementById('rodada').value;
+        const campeonatoPalpites = document.getElementById('idCampeonato').value;
+        const campeonato = document.getElementById('campeonato').value;
+
+        window.location.href = `/campeonato-palpites/processar/${campeonato}/${campeonatoPalpites}/${rodada}/`;
     }
 </script>
 
