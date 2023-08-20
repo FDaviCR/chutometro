@@ -73,10 +73,15 @@ router.get('/partidas/processar-resultados/:idCampeonato/:rodada', async (req, r
 
     if (qtdPartidas[0].qtd !== 20) {
         const resultadosPartidas = await processarResultadosPartidas(idCampeonato, rodada);
-        if (resultadosPartidas === true) {
-            await processarResultadosTabela(idCampeonato, rodada);
-            setTimeout(redirecionarTabela, 30000);
+
+        async function processarNovaTabela() {
+            if (resultadosPartidas === true) {
+                await processarResultadosTabela(idCampeonato, rodada);
+                setTimeout(redirecionarTabela, 30000);
+            }
         }
+
+        setTimeout(processarNovaTabela, 5000);
     } else {
         redirecionarTabela();
     }

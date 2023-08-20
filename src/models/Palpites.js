@@ -16,7 +16,7 @@ const Palpite = connection.define('Palpites', {
         allowNull: false,
     },
     rodada: {
-        type: Sequelize.BOOLEAN,
+        type: Sequelize.INTEGER,
         allowNull: false,
     },
     valido: {
