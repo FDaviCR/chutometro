@@ -48,7 +48,7 @@ router.post('/tabela-palpites', async (req, res) => {
         }
     }
 
-    setTimeout(redirecionar, 5000);
+    setTimeout(redirecionar, 15000);
 });
 
 router.post('/tabela-palpites/add-user', (req, res) => {

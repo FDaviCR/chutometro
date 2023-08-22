@@ -80,7 +80,6 @@ router.get('/campeonato-palpites/processar/:campeonato/:campeonatoPalpites/:roda
             });
         });
     }
-    /** VERIFICAR SOMA DOS PONTOS POR RODADA */
 
     async function processarTabela() {
         const tabela = await connection.query(`
@@ -93,7 +92,7 @@ router.get('/campeonato-palpites/processar/:campeonato/:campeonatoPalpites/:roda
                 'resultado',
                 { where: { CampeonatoPalpiteId: campeonatoPalpites, rodada, usuarioId: item.usuarioId } },
             );
-            console.log(`==========${item.usuarioId}===${pontos}-------------------------------------`);
+
             const pts = parseInt(item.pontuacao, 10) + parseInt(pontos, 10);
 
             await Tabela.update(
@@ -103,8 +102,15 @@ router.get('/campeonato-palpites/processar/:campeonato/:campeonatoPalpites/:roda
         });
     }
 
-    processarPalpites();
-    setTimeout(processarTabela, 5000);
+    const rodadaAtual = await Tabela.max(
+        'rodada',
+        { where: { CampeonatoPalpiteId: campeonatoPalpites } },
+    );
+
+    if (parseInt(rodadaAtual, 10) + 1 === parseInt(rodada, 10)) {
+        processarPalpites();
+        setTimeout(processarTabela, 5000);
+    }
 
     CampeonatoPaltipes.findAll().then((campeonatos) => {
         res.render('admin/campeonatoPalpites/index', { campeonatos });
