@@ -73,8 +73,8 @@ router.get('/campeonato-palpites/processar/:campeonato/:campeonatoPalpites/:roda
                     );
                 } else {
                     await Palpite.update(
-                        { valido: 1, resultado: 0 },
-                        { where: { partidaId: partida.partidaId, usuarioId: palpite.usuarioId } },
+                        { valido: 1 },
+                        { where: { partidaId: partida.partidaId } },
                     );
                 }
             });
@@ -104,7 +104,7 @@ router.get('/campeonato-palpites/processar/:campeonato/:campeonatoPalpites/:roda
     }
 
     processarPalpites();
-    setTimeout(processarTabela, 20000);
+    setTimeout(processarTabela, 5000);
 
     CampeonatoPaltipes.findAll().then((campeonatos) => {
         res.render('admin/campeonatoPalpites/index', { campeonatos });

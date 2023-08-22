@@ -11,40 +11,44 @@ const TabelaPalpites = require('../models/TabelaPalpites');
 router.post('/tabela-palpites', async (req, res) => {
     const { idCampeonato } = req.body;
 
-    if (idCampeonato !== undefined) {
-        if (!Number.isNaN(idCampeonato)) {
-            const campeonatoRaw = await connection.query(`SELECT campeonatoId FROM campeonatopalpites WHERE id = ${idCampeonato}`);
-            const campeonato = campeonatoRaw[0][0].campeonatoId;
+    async function redirecionar() {
+        if (idCampeonato !== undefined) {
+            if (!Number.isNaN(idCampeonato)) {
+                const campeonatoRaw = await connection.query(`SELECT campeonatoId FROM campeonatopalpites WHERE id = ${idCampeonato}`);
+                const campeonato = campeonatoRaw[0][0].campeonatoId;
 
-            const campeonatos = await connection.query(
-            `
-                SELECT tp.id, u.usuario, tp.pontuacao FROM tabelapalpites as tp
-                INNER JOIN usuarios AS u ON u.id = tp.usuarioId
-                INNER JOIN campeonatopalpites AS cp ON cp.id = tp.CampeonatoPalpiteId
-                WHERE tp.CampeonatoPalpiteId = ${idCampeonato}
-                ORDER BY tp.pontuacao`,
-                { type: QueryTypes.SELECT },
-            );
-            const jogadores = await connection.query(
-            `
-                SELECT u.id, u.usuario FROM tabelapalpites as tp
-                INNER JOIN usuarios AS u ON u.id = tp.usuarioId
-                INNER JOIN campeonatopalpites AS cp ON cp.id = tp.CampeonatoPalpiteId
-                WHERE tp.CampeonatoPalpiteId = ${idCampeonato}`,
-                { type: QueryTypes.SELECT },
-            );
+                const campeonatos = await connection.query(
+                `
+                    SELECT tp.id, u.usuario, tp.pontuacao FROM tabelapalpites as tp
+                    INNER JOIN usuarios AS u ON u.id = tp.usuarioId
+                    INNER JOIN campeonatopalpites AS cp ON cp.id = tp.CampeonatoPalpiteId
+                    WHERE tp.CampeonatoPalpiteId = ${idCampeonato}
+                    ORDER BY tp.pontuacao`,
+                    { type: QueryTypes.SELECT },
+                );
+                const jogadores = await connection.query(
+                `
+                    SELECT u.id, u.usuario FROM tabelapalpites as tp
+                    INNER JOIN usuarios AS u ON u.id = tp.usuarioId
+                    INNER JOIN campeonatopalpites AS cp ON cp.id = tp.CampeonatoPalpiteId
+                    WHERE tp.CampeonatoPalpiteId = ${idCampeonato}`,
+                    { type: QueryTypes.SELECT },
+                );
 
-            const rodadas = await connection.query(`SELECT rodada from partidas WHERE campeonatoId = ${campeonato} GROUP By rodada`, { type: QueryTypes.SELECT });
+                const rodadas = await connection.query(`SELECT rodada from partidas WHERE campeonatoId = ${campeonato} GROUP By rodada`, { type: QueryTypes.SELECT });
 
-            res.render('admin/tabelaPalpites/index', {
-                campeonatos, idCampeonato, jogadores, rodadas, campeonato,
-            });
+                res.render('admin/tabelaPalpites/index', {
+                    campeonatos, idCampeonato, jogadores, rodadas, campeonato,
+                });
+            } else {
+                res.render('/usuarios');
+            }
         } else {
-            res.render('/usuarios');
+            res.redirect('/');
         }
-    } else {
-        res.redirect('/');
     }
+
+    setTimeout(redirecionar, 5000);
 });
 
 router.post('/tabela-palpites/add-user', (req, res) => {
